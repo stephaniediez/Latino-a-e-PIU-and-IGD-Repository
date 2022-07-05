@@ -1,0 +1,2464 @@
+Mplus VERSION 8
+MUTHEN & MUTHEN
+01/09/2018  11:46 AM
+
+INPUT INSTRUCTIONS
+
+  Title:
+    Stata2Mplus conversion for C:\Users\wanthony\Desktop\Stephanie's dataset\Study 1\Miamida
+    List of variables converted shown below
+
+  Data:
+    File is C:\Users\wanthony\Desktop\Stephanie's dataset\Study 1\Miamidata_study1.dat ;
+  Variable:
+    Names are
+       age grade other_grade gpa gender latinow latinob africanam white asian
+       amerin nathaw otherraceethnic foreign_born employed household_size
+       livewith_self livewith_other livewith_2parents livewith_mom livewith_dade
+       livewith_bro livewith_sis livewith_auntuncle livewith_grandparents
+       livewith_partner livewith_children livewith_roomies headofhouse maternal_levelofed
+       paternal_levelofed ses_selfrate gaming_age online_gaming gaming_freq_week
+       gaming_freq_ends offline_gaming freq_week freq_ends grounding supervising
+       monitoring_text monitoring_web monitoring_tech dsm_dep1 dsm_dep2 dsm_anger
+       dsm_mania1 dsm_mania2 dsm_anxiety1 dsm_anxiety2 dsm_anxiety3 dsm_somatic1
+       dsm_somatic2 dsm_suicidal dsm_psychosis1 dsm_psychosis2 dsm_sleep
+       dsm_memory1 dsm_memory2 dsm_memory3 dsm_repetitive1 dsm_repetitive2
+       dsm_dissociation dsm_personality1 dsm_personality2 dsm_drinking dsm_smoking
+       dsm_prescription satotal dsmtotal alcohol cigarette cigarette_age
+       ecigarette tobacco marijuana marijuanasmoking otherdrug enviro_resilience1a
+       enviro_resilience1b enviro_resilience1c enviro_resilience2a enviro_resilience2b
+       enviro_resilience2c enviro_resilience3a enviro_resilience3b enviro_resilience3c
+       enviro_resilience4a enviro_resilience4b enviro_resilience4c enviro_resilience5a
+       enviro_resilience5b enviro_resilience5c enviro_resilience6a enviro_resilience6b
+       enviro_resilience6c family_substance enviro_resilience7b enviro_resilience7c
+       enviro_resilience8a enviro_resilience8b enviro_resilience8c enviro_resilience9a
+       enviro_resilience9b enviro_resilience9c enviro_resilience10a enviro_resilience10b
+       enviro_resilience10c enviro_resilience11a enviro_resilience11b enviro_resilience11c
+       enviro_resilience12a enviro_resilience12b enviro_resilience12c enviro_resilience13a
+       enviro_resilience13b enviro_resilience13c enviro_resilience14a enviro_resilience14b
+       enviro_resilience14c enviro_resilience15a enviro_resilience15b enviro_resilience15c
+       enviro_resilience16a enviro_resilience16b enviro_resilience16c enviro_resilience17a
+       enviro_resilience17b enviro_resilience17c latino headofhousedad headofhousemum
+       dsm_substance dsm_substancedi dsm_dep dsm_depdi dsm_angerdi dsm_anxiety
+       dsm_anxietydi dsm_personality dsm_personalitydi dsm_mania momania
+       mogpa moanger mopersonality modep mogender piu_1 piu_2 piu_3 piu_4
+       piu_5 piu_6 piu_7 piu_8 piu_9 piu_10 piu_11 piu_12 piu_13 piu_14 piu_15
+       piu_16 piu_17 piu_18 piutotal ses_scale1 ses_scale2 ses_scale3 ses_scale4
+       ses_scale5 ses par_monitoring1 par_monitoring2 par_monitoring3 par_monitoring4
+       par_monitoring5 par_monitoring6 par_monitoring7 par_monitoring8 monitoring
+       par_monitoring9 gpa_re other_race_text foreign_country employed_title
+       livewith_otherstext zip_code consoles_other_text alcohol_age ecigarette_age
+       tobacco_age marijuana_age otherdrug_name otherdrug_age otherdrug_firstuse
+       substanceuse16 substanceuse17 substanceuse18;
+    Missing are all (-9999) ;
+
+        USEVARIABLES
+         dsm_drinking dsm_smoking dsm_prescription
+         dsm_dep1 dsm_dep2 dsm_anxiety1 dsm_anxiety2 dsm_anxiety3 dsm_sleep
+         age gender gpa_RE africanam latino
+         piu_1 piu_2 piu_3 piu_4 piu_5 piu_6 piu_7 piu_9
+         piu_10 piu_11 piu_12 piu_13 piu_14 piu_15 piu_16
+         par_monitoring1 par_monitoring2 par_monitoring3 par_monitoring4
+         par_monitoring5 par_monitoring6 par_monitoring7 par_monitoring8;
+
+        Analysis:
+            BOOTSTRAP=1000;
+            TYPE IS MISSING;
+            ESTIMATOR IS ML;
+            ITERATIONS = 1000;
+            CONVERGENCE = 0.00005;
+            COVERAGE = 0.10
+
+          MODEL:
+          OBSSE BY PIU_1 PIU_4 PIU_7 PIU_10 PIU_13 PIU_16;
+          NEGLECT BY PIU_2 PIU_5 PIU_11 PIU_14;
+          CONTROL BY PIU_3 PIU_6 PIU_9 PIU_12 PIU_15;
+          PIUTOTAL BY OBSSE NEGLECT CONTROL;
+
+          piu_3 with piu_6;
+          piu_12 with piu_11;
+          piu_4 with piu_16;
+          piu_7 with piu_10;
+          PIU_12 WITH PIU_3;
+          PIU_13 WITH PIU_1;
+
+          SUBSTANCE BY dsm_drinking dsm_smoking dsm_prescription;
+
+          DEP by dsm_dep1 dsm_dep2;
+          ANX by dsm_anxiety1 dsm_anxiety2 dsm_anxiety3;
+
+          dsm_anxiety1 with dsm_dep2;
+      !!    dsm_anxiety2 with dsm_dep2;
+      !!    dsm_anxiety2 with dsm_dep1;
+         dsm_anxiety1 with dsm_smoking;
+         dsm_anxiety2 with dsm_smoking;
+
+          Monitoring by par_monitoring1 par_monitoring2 par_monitoring3
+          par_monitoring4 par_monitoring5 par_monitoring6
+          par_monitoring7 par_monitoring8;
+
+          par_monitoring8 with par_monitoring7;
+          par_monitoring5 with par_monitoring3;
+          par_monitoring8 with par_monitoring3;
+          par_monitoring7 with par_monitoring3;
+          par_monitoring1 with par_monitoring2;
+
+          age;
+          gender;
+          latino;
+          africanam;
+          gpa_RE;
+          dsm_sleep;
+         !! dsm_dep;
+         !! dsm_anxiety;
+
+
+          PIUTOTAL ON age gender africanam latino monitoring;
+
+
+          GPA_RE ON age gender africanam latino piutotal monitoring;
+          dsm_sleep ON age gender africanam latino piutotal monitoring;
+          ANX ON age gender africanam latino piutotal monitoring;
+          DEP ON age gender africanam latino piutotal monitoring;
+          Substance ON age gender africanam latino piutotal monitoring;
+
+
+          !!SUBSTANCE WITH PIUTOTAL@0;
+          !!AGE WITH DEP ANXIETY@0;
+          !!GENDER WITH DSM_DEP DSM_ANXIETY@0;
+
+           AGE WITH GENDER@0;
+         !!  AGE WITH AFRICANAM@0;
+         !!  GENDER WITH AFRICANAM@0
+         !!  AGE WITH LATINO@0;
+         !!  GENDER WITH LATINO@0;
+
+       MODEL INDIRECT:
+       GPA_RE IND PIUTOTAL MONITORING;
+     !!  GPA IND substance MONITORING;
+       dsm_sleep IND piutotal monitoring;
+       substance IND piutotal monitoring;
+       DEP IND PIUTOTAL MONITORING;
+       ANX IND PIUTOTAL MONITORING;
+     !!  dsm_sleep IND substance monitoring;
+     !!  dsm_sleep ind piutotal dsm_dep;
+     !!  dsm_sleep ind substance dsm_dep;
+     !!  dsm_sleep ind piutotal dsm_anxiety;
+     !!  dsm_sleep ind piutotal dsm_anxiety;
+
+
+
+          OUTPUT: SAMPSTAT STDYX cinterval(BOOTSTRAP);
+
+
+
+
+
+*** WARNING
+  Input line exceeded 90 characters. Some input may be truncated.
+    Stata2Mplus conversion for C:\Users\wanthony\Desktop\Stephanie's dataset\Study 1\Miamidat
+*** WARNING in ANALYSIS command
+  Starting with Version 5, TYPE=MISSING is the default for all analyses.
+  To obtain listwise deletion, use LISTWISE=ON in the DATA command.
+*** WARNING in VARIABLE command
+  Note that only the first 8 characters of variable names are used in the output.
+  Shorten variable names to avoid any confusion.
+   3 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+Stata2Mplus conversion for C:\Users\wanthony\Desktop\Stephanie's dataset\Study 1\Miamida
+List of variables converted shown below
+
+age : Age
+grade : Grade
+other_grade : Other_grade
+gpa : GPA
+gender : Gender
+latinow : LatinoW
+latinob : LatinoB
+africanam : AfricanAm
+white : White
+asian : Asian
+amerin : AmerIn
+nathaw : NatHaw
+otherraceethnic : Otherraceethnic
+other_race_text : Other_race_text
+1: African American/ Caribbean
+2: Afro American
+3: Black
+4: Black ( Haitian)
+5: Caucasian male
+6: Haitian
+7: Haitian American
+8: Haitian Jamaican American
+9: Haitian!
+10: Multiracial
+foreign_born : Foreign_born
+foreign_country : Foreign_country
+1: Africa
+2: Bahamas
+3: Cuba
+4: Dominican Republic
+5: El Salvador
+6: Guatemala
+7: Guatemale
+8: Haiti
+9: Haití
+10: Hati
+11: Honduras
+12: Jamaica
+13: United Kingdom
+employed : Employed
+employed_title : Employed_title
+1: .
+2: Assistant Teacher
+3: Bagger
+4: Cashier
+5: Chashier
+6: Crew member
+7: Dominos pizza
+8: Football
+9: Front Service Clerk
+10: Greeter
+11: Grocery Clerk
+12: I work at BK
+13: Laborer
+14: Movie theater entrance
+15: Publix -cashier
+16: Sales Associate
+17: Sneaker customizer
+18: Sorter
+19: Teachee
+20: YouTuber
+21: cashier
+22: dds discount
+23: mcdondls
+household_size : Household_size
+livewith_self : Livewith_self
+livewith_other : Livewith_other
+livewith_2parents : Livewith_2parents
+livewith_mom : Livewith_mom
+livewith_dade : Livewith_dade
+livewith_bro : Livewith_bro
+livewith_sis : Livewith_sis
+livewith_auntuncle : Livewith_auntuncle
+livewith_grandparents : Livewith_grandparents
+livewith_partner : Livewith_partner
+livewith_children : Livewith_children
+livewith_roomies : Livewith_roomies
+livewith_otherstext : Livewith_otherstext
+1: Acquaintance
+2: Aunty and grandmother
+3: Cousin
+4: Cousins
+5: Cousins and great uncle
+6: God mom, stepdad, grandma
+7: Grandma
+8: Grandmother
+9: Grandpa
+10: I live with my and grandma
+11: I live with my mother and her boyfriend
+12: Live with my mom and stepdad
+13: Mother and step dad
+14: Mother and step father
+15: My father and stepmother
+16: Nephew
+17: Step dad
+18: Step-dad
+19: Stepdad
+20: my father and my brothers
+headofhouse :
+zip_code :
+1: 330
+2: 33015
+3: 33023
+4: 33036
+5: 33051
+6: 33054
+7: 33055
+8: 33056
+9: 33101
+10: 33125
+11: 33127
+12: 33136
+13: 33137
+14: 33138
+15: 33139
+16: 33142
+17: 33145
+18: 33146
+19: 33147
+20: 33150
+21: 33152
+22: 33161
+23: 33162
+24: 33162-5158
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         247
+
+Number of dependent variables                                   33
+Number of independent variables                                  4
+Number of continuous latent variables                            8
+
+Observed dependent variables
+
+  Continuous
+   DSM_DRINKI  DSM_SMOKIN  DSM_PRESCR  DSM_DEP1    DSM_DEP2    DSM_ANXIET
+   DSM_ANXIET  DSM_ANXIET  DSM_SLEEP   GPA_RE      PIU_1       PIU_2
+   PIU_3       PIU_4       PIU_5       PIU_6       PIU_7       PIU_9
+   PIU_10      PIU_11      PIU_12      PIU_13      PIU_14      PIU_15
+   PIU_16      PAR_MONITO  PAR_MONITO  PAR_MONITO  PAR_MONITO  PAR_MONITO
+   PAR_MONITO  PAR_MONITO  PAR_MONITO
+
+Observed independent variables
+   AGE         GENDER      AFRICANA    LATINO
+
+Continuous latent variables
+   OBSSE       NEGLECT     CONTROL     PIUTOTAL    SUBSTANC    DEP
+   ANX         MONITORI
+
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Number of bootstrap draws
+    Requested                                                 1000
+    Completed                                                 1000
+
+Input data file(s)
+  C:\Users\wanthony\Desktop\Stephanie's dataset\Study 1\Miamidata_study1.dat
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns            38
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              DSM_DRIN      DSM_SMOK      DSM_PRES      DSM_DEP1      DSM_DEP2
+              ________      ________      ________      ________      ________
+ DSM_DRIN       0.947
+ DSM_SMOK       0.947         0.947
+ DSM_PRES       0.947         0.947         0.947
+ DSM_DEP1       0.947         0.947         0.947         0.947
+ DSM_DEP2       0.947         0.947         0.947         0.947         0.947
+ DSM_ANXI       0.947         0.947         0.947         0.947         0.947
+ DSM_ANXI       0.947         0.947         0.947         0.947         0.947
+ DSM_ANXI       0.947         0.947         0.947         0.947         0.947
+ DSM_SLEE       0.947         0.947         0.947         0.947         0.947
+ GPA_RE         0.903         0.903         0.903         0.903         0.903
+ PIU_1          0.931         0.931         0.931         0.931         0.931
+ PIU_2          0.915         0.915         0.915         0.915         0.915
+ PIU_3          0.915         0.915         0.915         0.915         0.915
+ PIU_4          0.907         0.907         0.907         0.907         0.907
+ PIU_5          0.915         0.915         0.915         0.915         0.915
+ PIU_6          0.911         0.911         0.911         0.911         0.911
+ PIU_7          0.923         0.923         0.923         0.923         0.923
+ PIU_9          0.907         0.907         0.907         0.907         0.907
+ PIU_10         0.887         0.887         0.887         0.887         0.887
+ PIU_11         0.895         0.895         0.895         0.895         0.895
+ PIU_12         0.923         0.923         0.923         0.923         0.923
+ PIU_13         0.907         0.907         0.907         0.907         0.907
+ PIU_14         0.915         0.915         0.915         0.915         0.915
+ PIU_15         0.907         0.907         0.907         0.907         0.907
+ PIU_16         0.919         0.919         0.919         0.919         0.919
+ PAR_MONI       0.947         0.947         0.947         0.947         0.947
+ PAR_MONI       0.947         0.947         0.947         0.947         0.947
+ PAR_MONI       0.947         0.947         0.947         0.947         0.947
+ PAR_MONI       0.947         0.947         0.947         0.947         0.947
+ PAR_MONI       0.947         0.947         0.947         0.947         0.947
+ PAR_MONI       0.947         0.947         0.947         0.947         0.947
+ PAR_MONI       0.947         0.947         0.947         0.947         0.947
+ PAR_MONI       0.947         0.947         0.947         0.947         0.947
+ AGE            0.939         0.939         0.939         0.939         0.939
+ GENDER         0.939         0.939         0.939         0.939         0.939
+ AFRICANA       0.947         0.947         0.947         0.947         0.947
+ LATINO         0.947         0.947         0.947         0.947         0.947
+
+
+           Covariance Coverage
+              DSM_ANXI      DSM_ANXI      DSM_ANXI      DSM_SLEE      GPA_RE
+              ________      ________      ________      ________      ________
+ DSM_ANXI       0.947
+ DSM_ANXI       0.947         0.947
+ DSM_ANXI       0.947         0.947         0.947
+ DSM_SLEE       0.947         0.947         0.947         0.947
+ GPA_RE         0.903         0.903         0.903         0.903         0.955
+ PIU_1          0.931         0.931         0.931         0.931         0.903
+ PIU_2          0.915         0.915         0.915         0.915         0.887
+ PIU_3          0.915         0.915         0.915         0.915         0.887
+ PIU_4          0.907         0.907         0.907         0.907         0.883
+ PIU_5          0.915         0.915         0.915         0.915         0.887
+ PIU_6          0.911         0.911         0.911         0.911         0.883
+ PIU_7          0.923         0.923         0.923         0.923         0.895
+ PIU_9          0.907         0.907         0.907         0.907         0.883
+ PIU_10         0.887         0.887         0.887         0.887         0.858
+ PIU_11         0.895         0.895         0.895         0.895         0.874
+ PIU_12         0.923         0.923         0.923         0.923         0.895
+ PIU_13         0.907         0.907         0.907         0.907         0.883
+ PIU_14         0.915         0.915         0.915         0.915         0.887
+ PIU_15         0.907         0.907         0.907         0.907         0.879
+ PIU_16         0.919         0.919         0.919         0.919         0.895
+ PAR_MONI       0.947         0.947         0.947         0.947         0.911
+ PAR_MONI       0.947         0.947         0.947         0.947         0.911
+ PAR_MONI       0.947         0.947         0.947         0.947         0.911
+ PAR_MONI       0.947         0.947         0.947         0.947         0.911
+ PAR_MONI       0.947         0.947         0.947         0.947         0.911
+ PAR_MONI       0.947         0.947         0.947         0.947         0.911
+ PAR_MONI       0.947         0.947         0.947         0.947         0.911
+ PAR_MONI       0.947         0.947         0.947         0.947         0.911
+ AGE            0.939         0.939         0.939         0.939         0.947
+ GENDER         0.939         0.939         0.939         0.939         0.947
+ AFRICANA       0.947         0.947         0.947         0.947         0.955
+ LATINO         0.947         0.947         0.947         0.947         0.955
+
+
+           Covariance Coverage
+              PIU_1         PIU_2         PIU_3         PIU_4         PIU_5
+              ________      ________      ________      ________      ________
+ PIU_1          0.947
+ PIU_2          0.923         0.931
+ PIU_3          0.927         0.911         0.931
+ PIU_4          0.919         0.907         0.915         0.923
+ PIU_5          0.923         0.911         0.915         0.907         0.931
+ PIU_6          0.919         0.907         0.915         0.903         0.919
+ PIU_7          0.935         0.919         0.927         0.919         0.923
+ PIU_9          0.919         0.907         0.911         0.911         0.907
+ PIU_10         0.899         0.887         0.891         0.895         0.887
+ PIU_11         0.903         0.891         0.895         0.891         0.891
+ PIU_12         0.931         0.919         0.923         0.919         0.919
+ PIU_13         0.919         0.907         0.911         0.915         0.907
+ PIU_14         0.923         0.915         0.915         0.915         0.915
+ PIU_15         0.915         0.907         0.903         0.903         0.903
+ PIU_16         0.927         0.919         0.919         0.919         0.919
+ PAR_MONI       0.939         0.923         0.923         0.915         0.923
+ PAR_MONI       0.939         0.923         0.923         0.915         0.923
+ PAR_MONI       0.939         0.923         0.923         0.915         0.923
+ PAR_MONI       0.939         0.923         0.923         0.915         0.923
+ PAR_MONI       0.939         0.923         0.923         0.915         0.923
+ PAR_MONI       0.939         0.923         0.923         0.915         0.923
+ PAR_MONI       0.939         0.923         0.923         0.915         0.923
+ PAR_MONI       0.939         0.923         0.923         0.915         0.923
+ AGE            0.939         0.923         0.923         0.915         0.923
+ GENDER         0.939         0.923         0.923         0.915         0.923
+ AFRICANA       0.947         0.931         0.931         0.923         0.931
+ LATINO         0.947         0.931         0.931         0.923         0.931
+
+
+           Covariance Coverage
+              PIU_6         PIU_7         PIU_9         PIU_10        PIU_11
+              ________      ________      ________      ________      ________
+ PIU_6          0.927
+ PIU_7          0.919         0.939
+ PIU_9          0.903         0.919         0.923
+ PIU_10         0.883         0.899         0.895         0.903
+ PIU_11         0.891         0.903         0.895         0.874         0.911
+ PIU_12         0.915         0.931         0.923         0.903         0.911
+ PIU_13         0.903         0.919         0.911         0.895         0.891
+ PIU_14         0.911         0.923         0.915         0.899         0.895
+ PIU_15         0.903         0.911         0.903         0.883         0.891
+ PIU_16         0.915         0.927         0.915         0.895         0.899
+ PAR_MONI       0.919         0.931         0.915         0.895         0.903
+ PAR_MONI       0.919         0.931         0.915         0.895         0.903
+ PAR_MONI       0.919         0.931         0.915         0.895         0.903
+ PAR_MONI       0.919         0.931         0.915         0.895         0.903
+ PAR_MONI       0.919         0.931         0.915         0.895         0.903
+ PAR_MONI       0.919         0.931         0.915         0.895         0.903
+ PAR_MONI       0.919         0.931         0.915         0.895         0.903
+ PAR_MONI       0.919         0.931         0.915         0.895         0.903
+ AGE            0.919         0.931         0.915         0.895         0.903
+ GENDER         0.919         0.931         0.919         0.895         0.903
+ AFRICANA       0.927         0.939         0.923         0.903         0.911
+ LATINO         0.927         0.939         0.923         0.903         0.911
+
+
+           Covariance Coverage
+              PIU_12        PIU_13        PIU_14        PIU_15        PIU_16
+              ________      ________      ________      ________      ________
+ PIU_12         0.939
+ PIU_13         0.919         0.923
+ PIU_14         0.923         0.919         0.931
+ PIU_15         0.911         0.903         0.911         0.923
+ PIU_16         0.927         0.919         0.923         0.911         0.935
+ PAR_MONI       0.931         0.915         0.923         0.915         0.927
+ PAR_MONI       0.931         0.915         0.923         0.915         0.927
+ PAR_MONI       0.931         0.915         0.923         0.915         0.927
+ PAR_MONI       0.931         0.915         0.923         0.915         0.927
+ PAR_MONI       0.931         0.915         0.923         0.915         0.927
+ PAR_MONI       0.931         0.915         0.923         0.915         0.927
+ PAR_MONI       0.931         0.915         0.923         0.915         0.927
+ PAR_MONI       0.931         0.915         0.923         0.915         0.927
+ AGE            0.931         0.915         0.923         0.915         0.927
+ GENDER         0.931         0.915         0.923         0.915         0.927
+ AFRICANA       0.939         0.923         0.931         0.923         0.935
+ LATINO         0.939         0.923         0.931         0.923         0.935
+
+
+           Covariance Coverage
+              PAR_MONI      PAR_MONI      PAR_MONI      PAR_MONI      PAR_MONI
+              ________      ________      ________      ________      ________
+ PAR_MONI       0.955
+ PAR_MONI       0.955         0.955
+ PAR_MONI       0.955         0.955         0.955
+ PAR_MONI       0.955         0.955         0.955         0.955
+ PAR_MONI       0.955         0.955         0.955         0.955         0.955
+ PAR_MONI       0.955         0.955         0.955         0.955         0.955
+ PAR_MONI       0.955         0.955         0.955         0.955         0.955
+ PAR_MONI       0.955         0.955         0.955         0.955         0.955
+ AGE            0.947         0.947         0.947         0.947         0.947
+ GENDER         0.947         0.947         0.947         0.947         0.947
+ AFRICANA       0.955         0.955         0.955         0.955         0.955
+ LATINO         0.955         0.955         0.955         0.955         0.955
+
+
+           Covariance Coverage
+              PAR_MONI      PAR_MONI      PAR_MONI      AGE           GENDER
+              ________      ________      ________      ________      ________
+ PAR_MONI       0.955
+ PAR_MONI       0.955         0.955
+ PAR_MONI       0.955         0.955         0.955
+ AGE            0.947         0.947         0.947         0.992
+ GENDER         0.947         0.947         0.947         0.984         0.992
+ AFRICANA       0.955         0.955         0.955         0.992         0.992
+ LATINO         0.955         0.955         0.955         0.992         0.992
+
+
+           Covariance Coverage
+              AFRICANA      LATINO
+              ________      ________
+ AFRICANA       1.000
+ LATINO         1.000         1.000
+
+
+SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              DSM_DRIN      DSM_SMOK      DSM_PRES      DSM_DEP1      DSM_DEP2
+              ________      ________      ________      ________      ________
+                1.192         1.195         1.154         2.185         2.103
+
+
+           Means
+              DSM_ANXI      DSM_ANXI      DSM_ANXI      DSM_SLEE      GPA_RE
+              ________      ________      ________      ________      ________
+                1.844         1.559         2.132         1.839         8.519
+
+
+           Means
+              PIU_1         PIU_2         PIU_3         PIU_4         PIU_5
+              ________      ________      ________      ________      ________
+                2.346         3.027         2.743         1.663         2.673
+
+
+           Means
+              PIU_6         PIU_7         PIU_9         PIU_10        PIU_11
+              ________      ________      ________      ________      ________
+                2.418         2.121         2.062         2.526         2.366
+
+
+           Means
+              PIU_12        PIU_13        PIU_14        PIU_15        PIU_16
+              ________      ________      ________      ________      ________
+                2.152         1.702         2.607         2.757         1.389
+
+
+           Means
+              PAR_MONI      PAR_MONI      PAR_MONI      PAR_MONI      PAR_MONI
+              ________      ________      ________      ________      ________
+                5.337         5.511         6.320         5.598         6.366
+
+
+           Means
+              PAR_MONI      PAR_MONI      PAR_MONI      AGE           GENDER
+              ________      ________      ________      ________      ________
+                5.537         5.001         4.945        16.031         1.641
+
+
+           Means
+              AFRICANA      LATINO
+              ________      ________
+                0.692         0.271
+
+
+           Covariances
+              DSM_DRIN      DSM_SMOK      DSM_PRES      DSM_DEP1      DSM_DEP2
+              ________      ________      ________      ________      ________
+ DSM_DRIN       0.334
+ DSM_SMOK       0.222         0.405
+ DSM_PRES       0.137         0.170         0.275
+ DSM_DEP1       0.121         0.076         0.098         1.346
+ DSM_DEP2       0.131         0.130         0.109         0.476         1.540
+ DSM_ANXI       0.120         0.108         0.115         0.328         0.775
+ DSM_ANXI       0.212         0.274         0.136         0.291         0.491
+ DSM_ANXI       0.151         0.189         0.084         0.477         0.610
+ DSM_SLEE       0.122         0.178         0.138         0.346         0.482
+ GPA_RE        -0.079        -0.123        -0.037         0.118         0.037
+ PIU_1         -0.057        -0.028         0.003        -0.038         0.059
+ PIU_2         -0.101        -0.111        -0.040         0.106         0.145
+ PIU_3         -0.001         0.004         0.065         0.319         0.259
+ PIU_4          0.019         0.021         0.036         0.045        -0.008
+ PIU_5          0.038         0.058         0.041         0.314         0.157
+ PIU_6         -0.016        -0.024        -0.013         0.189         0.282
+ PIU_7         -0.021        -0.041        -0.011         0.005         0.189
+ PIU_9          0.033         0.037         0.043         0.175         0.058
+ PIU_10        -0.040        -0.016         0.036         0.136         0.351
+ PIU_11        -0.070        -0.069         0.019         0.021         0.065
+ PIU_12        -0.024        -0.012         0.032         0.165         0.159
+ PIU_13         0.045         0.101         0.023         0.146         0.258
+ PIU_14        -0.068        -0.081        -0.010         0.155         0.131
+ PIU_15        -0.028        -0.052         0.034         0.234         0.234
+ PIU_16         0.004         0.014         0.020         0.051         0.039
+ PAR_MONI      -0.003         0.052         0.028        -0.019         0.211
+ PAR_MONI      -0.100        -0.045        -0.012         0.004         0.146
+ PAR_MONI      -0.054        -0.093        -0.037         0.261         0.256
+ PAR_MONI      -0.031        -0.063         0.022        -0.077         0.047
+ PAR_MONI      -0.085        -0.120        -0.037         0.082         0.122
+ PAR_MONI       0.001        -0.061         0.005         0.165         0.167
+ PAR_MONI       0.019         0.033         0.024         0.069         0.192
+ PAR_MONI       0.014         0.032         0.046        -0.049         0.178
+ AGE            0.068         0.005         0.031         0.034         0.105
+ GENDER        -0.010        -0.051        -0.019         0.084         0.021
+ AFRICANA       0.010         0.018         0.016        -0.024        -0.050
+ LATINO        -0.018        -0.015        -0.025         0.027         0.037
+
+
+           Covariances
+              DSM_ANXI      DSM_ANXI      DSM_ANXI      DSM_SLEE      GPA_RE
+              ________      ________      ________      ________      ________
+ DSM_ANXI       1.270
+ DSM_ANXI       0.657         0.887
+ DSM_ANXI       0.515         0.668         1.714
+ DSM_SLEE       0.462         0.474         0.624         1.337
+ GPA_RE        -0.140        -0.162         0.000        -0.133         2.844
+ PIU_1         -0.049        -0.061         0.032         0.101        -0.159
+ PIU_2          0.051        -0.117         0.074         0.145         0.088
+ PIU_3          0.131        -0.018         0.163         0.209         0.306
+ PIU_4          0.007        -0.037        -0.090         0.134         0.017
+ PIU_5          0.053         0.120         0.071         0.310         0.279
+ PIU_6          0.139         0.024        -0.005         0.331         0.155
+ PIU_7          0.106        -0.019         0.040         0.145         0.034
+ PIU_9          0.024         0.086         0.225         0.167         0.115
+ PIU_10         0.209         0.108         0.169         0.397         0.062
+ PIU_11         0.068         0.007         0.069         0.095         0.320
+ PIU_12         0.098         0.018         0.163         0.317         0.218
+ PIU_13         0.168         0.141         0.243         0.248         0.129
+ PIU_14        -0.096         0.016         0.178         0.335         0.283
+ PIU_15        -0.064         0.029         0.145         0.401         0.240
+ PIU_16        -0.020         0.007         0.032         0.122         0.092
+ PAR_MONI       0.152         0.164         0.186         0.179        -0.336
+ PAR_MONI       0.014         0.033         0.058         0.113        -0.220
+ PAR_MONI       0.217         0.137         0.290         0.254        -0.098
+ PAR_MONI       0.044         0.066         0.073         0.010        -0.151
+ PAR_MONI       0.088         0.030         0.186         0.177        -0.077
+ PAR_MONI       0.136         0.121         0.309         0.292        -0.371
+ PAR_MONI       0.079         0.113         0.175         0.076        -0.330
+ PAR_MONI       0.058         0.049         0.052         0.105        -0.443
+ AGE            0.005        -0.040        -0.105         0.047         0.103
+ GENDER         0.009        -0.020         0.031         0.068         0.184
+ AFRICANA      -0.026         0.005        -0.018        -0.011         0.046
+ LATINO         0.029         0.001         0.037         0.014        -0.033
+
+
+           Covariances
+              PIU_1         PIU_2         PIU_3         PIU_4         PIU_5
+              ________      ________      ________      ________      ________
+ PIU_1          1.223
+ PIU_2          0.374         1.308
+ PIU_3          0.160         0.243         1.339
+ PIU_4          0.651         0.395         0.179         1.030
+ PIU_5          0.387         0.550         0.358         0.355         1.564
+ PIU_6          0.330         0.525         0.729         0.390         0.803
+ PIU_7          0.624         0.589         0.210         0.518         0.451
+ PIU_9          0.226         0.189         0.445         0.214         0.257
+ PIU_10         0.611         0.594         0.230         0.494         0.553
+ PIU_11         0.451         0.517         0.401         0.453         0.593
+ PIU_12         0.333         0.435         0.572         0.409         0.502
+ PIU_13         0.429         0.362         0.148         0.477         0.321
+ PIU_14         0.426         0.701         0.411         0.318         0.976
+ PIU_15         0.363         0.668         0.582         0.406         0.898
+ PIU_16         0.443         0.276         0.052         0.594         0.250
+ PAR_MONI       0.080         0.167        -0.002         0.041         0.031
+ PAR_MONI       0.202         0.386         0.070         0.183         0.271
+ PAR_MONI       0.130         0.403         0.039         0.110         0.337
+ PAR_MONI       0.169         0.221        -0.174         0.084         0.130
+ PAR_MONI       0.117         0.461        -0.043         0.102         0.301
+ PAR_MONI       0.264         0.312        -0.015         0.213         0.319
+ PAR_MONI       0.072         0.123        -0.101         0.069         0.103
+ PAR_MONI       0.062         0.135        -0.116        -0.011        -0.008
+ AGE           -0.003        -0.042        -0.034        -0.028        -0.022
+ GENDER         0.008         0.114         0.128        -0.002         0.080
+ AFRICANA       0.002         0.063         0.021         0.017         0.045
+ LATINO         0.035        -0.025         0.007         0.007        -0.022
+
+
+           Covariances
+              PIU_6         PIU_7         PIU_9         PIU_10        PIU_11
+              ________      ________      ________      ________      ________
+ PIU_6          1.517
+ PIU_7          0.400         1.520
+ PIU_9          0.417         0.230         1.259
+ PIU_10         0.437         1.109         0.252         1.818
+ PIU_11         0.511         0.457         0.344         0.585         1.375
+ PIU_12         0.610         0.377         0.387         0.514         0.752
+ PIU_13         0.259         0.680         0.206         0.673         0.369
+ PIU_14         0.720         0.574         0.378         0.536         0.725
+ PIU_15         0.984         0.493         0.512         0.666         0.825
+ PIU_16         0.176         0.410         0.140         0.421         0.357
+ PAR_MONI      -0.029         0.098        -0.122         0.193         0.061
+ PAR_MONI       0.229         0.344        -0.017         0.423         0.300
+ PAR_MONI       0.099         0.136        -0.014         0.366         0.271
+ PAR_MONI      -0.142         0.090        -0.116         0.107         0.147
+ PAR_MONI       0.070         0.157        -0.127         0.248         0.197
+ PAR_MONI      -0.046         0.231        -0.056         0.357         0.008
+ PAR_MONI      -0.053         0.136        -0.091         0.142         0.052
+ PAR_MONI      -0.134         0.218        -0.093         0.200        -0.093
+ AGE           -0.125        -0.190         0.022        -0.101         0.020
+ GENDER         0.125         0.023         0.142         0.111         0.058
+ AFRICANA       0.048        -0.020        -0.007         0.029         0.011
+ LATINO        -0.012         0.029         0.028        -0.036         0.001
+
+
+           Covariances
+              PIU_12        PIU_13        PIU_14        PIU_15        PIU_16
+              ________      ________      ________      ________      ________
+ PIU_12         1.168
+ PIU_13         0.323         1.040
+ PIU_14         0.548         0.385         1.752
+ PIU_15         0.693         0.352         1.013         1.972
+ PIU_16         0.241         0.424         0.249         0.289         0.653
+ PAR_MONI       0.056         0.015         0.086        -0.060         0.028
+ PAR_MONI       0.291         0.136         0.436         0.341         0.123
+ PAR_MONI       0.358         0.125         0.473         0.293         0.085
+ PAR_MONI       0.113        -0.008         0.186        -0.022         0.053
+ PAR_MONI       0.191         0.066         0.358         0.282         0.156
+ PAR_MONI       0.065         0.149         0.245         0.203         0.170
+ PAR_MONI       0.084         0.149         0.170        -0.050         0.059
+ PAR_MONI      -0.027         0.059         0.127         0.040         0.026
+ AGE            0.069        -0.039        -0.086        -0.133         0.020
+ GENDER         0.089         0.015         0.108         0.158         0.004
+ AFRICANA       0.027         0.019         0.040         0.011         0.029
+ LATINO        -0.027        -0.008        -0.014         0.026        -0.004
+
+
+           Covariances
+              PAR_MONI      PAR_MONI      PAR_MONI      PAR_MONI      PAR_MONI
+              ________      ________      ________      ________      ________
+ PAR_MONI       1.452
+ PAR_MONI       0.888         1.679
+ PAR_MONI       0.662         0.835         1.824
+ PAR_MONI       0.695         0.646         0.800         1.756
+ PAR_MONI       0.498         0.739         1.232         0.840         1.728
+ PAR_MONI       0.663         0.790         0.869         0.685         1.021
+ PAR_MONI       0.489         0.590         0.349         0.636         0.544
+ PAR_MONI       0.556         0.704         0.402         0.647         0.497
+ AGE            0.126         0.019         0.042         0.127        -0.026
+ GENDER        -0.052        -0.027         0.071         0.026         0.068
+ AFRICANA      -0.013        -0.023         0.000        -0.055         0.020
+ LATINO        -0.028        -0.016        -0.025         0.012        -0.056
+
+
+           Covariances
+              PAR_MONI      PAR_MONI      PAR_MONI      AGE           GENDER
+              ________      ________      ________      ________      ________
+ PAR_MONI       1.805
+ PAR_MONI       0.721         1.859
+ PAR_MONI       0.702         1.126         1.669
+ AGE            0.091         0.089         0.108         1.427
+ GENDER         0.016        -0.048        -0.071        -0.004         0.230
+ AFRICANA      -0.039        -0.007        -0.052        -0.051         0.018
+ LATINO         0.030        -0.018        -0.014         0.012        -0.010
+
+
+           Covariances
+              AFRICANA      LATINO
+              ________      ________
+ AFRICANA       0.213
+ LATINO        -0.155         0.198
+
+
+           Correlations
+              DSM_DRIN      DSM_SMOK      DSM_PRES      DSM_DEP1      DSM_DEP2
+              ________      ________      ________      ________      ________
+ DSM_DRIN       1.000
+ DSM_SMOK       0.604         1.000
+ DSM_PRES       0.451         0.510         1.000
+ DSM_DEP1       0.180         0.104         0.161         1.000
+ DSM_DEP2       0.183         0.164         0.168         0.331         1.000
+ DSM_ANXI       0.185         0.150         0.194         0.251         0.554
+ DSM_ANXI       0.390         0.457         0.276         0.267         0.420
+ DSM_ANXI       0.200         0.227         0.122         0.314         0.376
+ DSM_SLEE       0.183         0.242         0.227         0.258         0.336
+ GPA_RE        -0.081        -0.114        -0.042         0.060         0.018
+ PIU_1         -0.088        -0.039         0.005        -0.030         0.043
+ PIU_2         -0.153        -0.153        -0.067         0.080         0.102
+ PIU_3         -0.002         0.005         0.107         0.238         0.180
+ PIU_4          0.033         0.033         0.068         0.039        -0.006
+ PIU_5          0.053         0.072         0.062         0.217         0.101
+ PIU_6         -0.022        -0.031        -0.021         0.132         0.185
+ PIU_7         -0.030        -0.053        -0.017         0.003         0.123
+ PIU_9          0.050         0.051         0.073         0.134         0.042
+ PIU_10        -0.052        -0.019         0.051         0.087         0.210
+ PIU_11        -0.104        -0.092         0.032         0.015         0.045
+ PIU_12        -0.038        -0.017         0.056         0.132         0.119
+ PIU_13         0.076         0.155         0.042         0.123         0.204
+ PIU_14        -0.088        -0.096        -0.014         0.101         0.080
+ PIU_15        -0.034        -0.058         0.046         0.144         0.134
+ PIU_16         0.009         0.027         0.046         0.055         0.039
+ PAR_MONI      -0.004         0.068         0.044        -0.014         0.141
+ PAR_MONI      -0.133        -0.055        -0.017         0.003         0.091
+ PAR_MONI      -0.069        -0.108        -0.052         0.167         0.153
+ PAR_MONI      -0.040        -0.074         0.032        -0.050         0.029
+ PAR_MONI      -0.112        -0.144        -0.054         0.054         0.075
+ PAR_MONI       0.001        -0.072         0.007         0.106         0.100
+ PAR_MONI       0.024         0.038         0.033         0.044         0.113
+ PAR_MONI       0.019         0.039         0.067        -0.033         0.111
+ AGE            0.099         0.007         0.049         0.025         0.071
+ GENDER        -0.036        -0.166        -0.077         0.151         0.036
+ AFRICANA       0.038         0.060         0.068        -0.045        -0.087
+ LATINO        -0.069        -0.053        -0.105         0.053         0.068
+
+
+           Correlations
+              DSM_ANXI      DSM_ANXI      DSM_ANXI      DSM_SLEE      GPA_RE
+              ________      ________      ________      ________      ________
+ DSM_ANXI       1.000
+ DSM_ANXI       0.619         1.000
+ DSM_ANXI       0.349         0.542         1.000
+ DSM_SLEE       0.354         0.435         0.412         1.000
+ GPA_RE        -0.074        -0.102         0.000        -0.068         1.000
+ PIU_1         -0.040        -0.058         0.022         0.079        -0.085
+ PIU_2          0.040        -0.109         0.050         0.109         0.046
+ PIU_3          0.101        -0.016         0.108         0.156         0.157
+ PIU_4          0.006        -0.038        -0.068         0.114         0.010
+ PIU_5          0.038         0.102         0.043         0.215         0.132
+ PIU_6          0.100         0.021        -0.003         0.232         0.074
+ PIU_7          0.076        -0.016         0.025         0.102         0.016
+ PIU_9          0.019         0.081         0.153         0.129         0.061
+ PIU_10         0.137         0.085         0.095         0.255         0.027
+ PIU_11         0.052         0.006         0.045         0.070         0.162
+ PIU_12         0.081         0.018         0.116         0.254         0.120
+ PIU_13         0.146         0.147         0.182         0.210         0.075
+ PIU_14        -0.065         0.013         0.103         0.219         0.127
+ PIU_15        -0.040         0.022         0.079         0.247         0.101
+ PIU_16        -0.022         0.009         0.030         0.131         0.067
+ PAR_MONI       0.112         0.144         0.118         0.128        -0.165
+ PAR_MONI       0.009         0.027         0.034         0.075        -0.101
+ PAR_MONI       0.143         0.107         0.164         0.163        -0.043
+ PAR_MONI       0.030         0.053         0.042         0.007        -0.067
+ PAR_MONI       0.059         0.024         0.108         0.116        -0.035
+ PAR_MONI       0.090         0.096         0.175         0.188        -0.164
+ PAR_MONI       0.052         0.088         0.098         0.048        -0.144
+ PAR_MONI       0.040         0.040         0.030         0.071        -0.203
+ AGE            0.003        -0.035        -0.067         0.034         0.051
+ GENDER         0.016        -0.044         0.049         0.123         0.228
+ AFRICANA      -0.050         0.011        -0.029        -0.021         0.059
+ LATINO         0.057         0.002         0.063         0.027        -0.045
+
+
+           Correlations
+              PIU_1         PIU_2         PIU_3         PIU_4         PIU_5
+              ________      ________      ________      ________      ________
+ PIU_1          1.000
+ PIU_2          0.296         1.000
+ PIU_3          0.125         0.184         1.000
+ PIU_4          0.581         0.340         0.153         1.000
+ PIU_5          0.280         0.385         0.247         0.279         1.000
+ PIU_6          0.243         0.373         0.511         0.312         0.521
+ PIU_7          0.458         0.418         0.147         0.414         0.293
+ PIU_9          0.183         0.147         0.343         0.188         0.184
+ PIU_10         0.410         0.385         0.147         0.361         0.328
+ PIU_11         0.347         0.386         0.296         0.380         0.405
+ PIU_12         0.279         0.352         0.457         0.373         0.372
+ PIU_13         0.380         0.311         0.126         0.460         0.252
+ PIU_14         0.291         0.463         0.269         0.237         0.590
+ PIU_15         0.234         0.416         0.358         0.285         0.512
+ PIU_16         0.496         0.298         0.055         0.724         0.248
+ PAR_MONI       0.060         0.121        -0.002         0.033         0.021
+ PAR_MONI       0.141         0.260         0.047         0.139         0.167
+ PAR_MONI       0.087         0.261         0.025         0.080         0.199
+ PAR_MONI       0.115         0.146        -0.114         0.062         0.078
+ PAR_MONI       0.080         0.307        -0.028         0.076         0.183
+ PAR_MONI       0.178         0.203        -0.009         0.156         0.190
+ PAR_MONI       0.048         0.079        -0.064         0.050         0.061
+ PAR_MONI       0.043         0.092        -0.078        -0.008        -0.005
+ AGE           -0.002        -0.031        -0.025        -0.023        -0.015
+ GENDER         0.015         0.208         0.231        -0.004         0.134
+ AFRICANA       0.004         0.119         0.038         0.036         0.079
+ LATINO         0.071        -0.049         0.015         0.016        -0.039
+
+
+           Correlations
+              PIU_6         PIU_7         PIU_9         PIU_10        PIU_11
+              ________      ________      ________      ________      ________
+ PIU_6          1.000
+ PIU_7          0.263         1.000
+ PIU_9          0.302         0.166         1.000
+ PIU_10         0.263         0.667         0.167         1.000
+ PIU_11         0.354         0.316         0.262         0.370         1.000
+ PIU_12         0.458         0.283         0.319         0.353         0.593
+ PIU_13         0.206         0.541         0.180         0.489         0.309
+ PIU_14         0.442         0.352         0.255         0.300         0.467
+ PIU_15         0.569         0.285         0.325         0.352         0.501
+ PIU_16         0.177         0.411         0.155         0.386         0.376
+ PAR_MONI      -0.020         0.066        -0.090         0.119         0.043
+ PAR_MONI       0.143         0.215        -0.012         0.242         0.197
+ PAR_MONI       0.059         0.082        -0.009         0.201         0.171
+ PAR_MONI      -0.087         0.055        -0.078         0.060         0.095
+ PAR_MONI       0.043         0.097        -0.086         0.140         0.128
+ PAR_MONI      -0.028         0.140        -0.037         0.197         0.005
+ PAR_MONI      -0.032         0.081        -0.060         0.077         0.032
+ PAR_MONI      -0.084         0.137        -0.064         0.115        -0.061
+ AGE           -0.085        -0.129         0.017        -0.063         0.014
+ GENDER         0.212         0.039         0.263         0.171         0.104
+ AFRICANA       0.084        -0.036        -0.013         0.047         0.020
+ LATINO        -0.021         0.053         0.057        -0.060         0.001
+
+
+           Correlations
+              PIU_12        PIU_13        PIU_14        PIU_15        PIU_16
+              ________      ________      ________      ________      ________
+ PIU_12         1.000
+ PIU_13         0.293         1.000
+ PIU_14         0.383         0.285         1.000
+ PIU_15         0.457         0.246         0.545         1.000
+ PIU_16         0.276         0.514         0.233         0.254         1.000
+ PAR_MONI       0.043         0.012         0.054        -0.035         0.029
+ PAR_MONI       0.208         0.103         0.254         0.188         0.117
+ PAR_MONI       0.245         0.091         0.265         0.154         0.077
+ PAR_MONI       0.079        -0.006         0.106        -0.012         0.049
+ PAR_MONI       0.134         0.049         0.206         0.153         0.147
+ PAR_MONI       0.045         0.109         0.138         0.107         0.157
+ PAR_MONI       0.057         0.107         0.094        -0.026         0.054
+ PAR_MONI      -0.019         0.045         0.074         0.022         0.025
+ AGE            0.054        -0.032        -0.055        -0.079         0.020
+ GENDER         0.172         0.030         0.171         0.234         0.010
+ AFRICANA       0.053         0.039         0.065         0.018         0.078
+ LATINO        -0.056        -0.017        -0.023         0.041        -0.010
+
+
+           Correlations
+              PAR_MONI      PAR_MONI      PAR_MONI      PAR_MONI      PAR_MONI
+              ________      ________      ________      ________      ________
+ PAR_MONI       1.000
+ PAR_MONI       0.569         1.000
+ PAR_MONI       0.407         0.477         1.000
+ PAR_MONI       0.435         0.376         0.447         1.000
+ PAR_MONI       0.314         0.434         0.694         0.482         1.000
+ PAR_MONI       0.410         0.454         0.479         0.385         0.578
+ PAR_MONI       0.298         0.334         0.189         0.352         0.303
+ PAR_MONI       0.357         0.421         0.230         0.378         0.293
+ AGE            0.087         0.012         0.026         0.080        -0.017
+ GENDER        -0.090        -0.043         0.109         0.041         0.107
+ AFRICANA      -0.024        -0.038         0.000        -0.090         0.033
+ LATINO        -0.053        -0.028        -0.041         0.021        -0.095
+
+
+           Correlations
+              PAR_MONI      PAR_MONI      PAR_MONI      AGE           GENDER
+              ________      ________      ________      ________      ________
+ PAR_MONI       1.000
+ PAR_MONI       0.393         1.000
+ PAR_MONI       0.404         0.639         1.000
+ AGE            0.057         0.055         0.070         1.000
+ GENDER         0.025        -0.074        -0.114        -0.006         1.000
+ AFRICANA      -0.063        -0.011        -0.087        -0.093         0.080
+ LATINO         0.050        -0.029        -0.024         0.023        -0.049
+
+
+           Correlations
+              AFRICANA      LATINO
+              ________      ________
+ AFRICANA       1.000
+ LATINO        -0.757         1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -10787.261
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     DSM_DRINKING          1.192       3.400       1.000   87.61%       1.000      1.000      1.000
+             234.000       0.335      11.591       4.000    2.14%       1.000      1.000
+     DSM_SMOKING           1.197       3.773       1.000   88.89%       1.000      1.000      1.000
+             234.000       0.406      15.015       5.000    0.85%       1.000      1.000
+     DSM_PRESCRIPTIO       1.154       3.884       1.000   90.17%       1.000      1.000      1.000
+             234.000       0.275      15.463       4.000    1.71%       1.000      1.000
+     DSM_DEP1              2.175       0.712       1.000   36.75%       1.000      2.000      2.000
+             234.000       1.341      -0.411       5.000    4.27%       2.000      3.000
+     DSM_DEP2              2.098       0.898       1.000   44.02%       1.000      1.000      2.000
+             234.000       1.542      -0.317       5.000    5.98%       2.000      3.000
+     DSM_ANXIETY1          1.842       1.335       1.000   52.99%       1.000      1.000      1.000
+             234.000       1.270       0.946       5.000    4.70%       2.000      3.000
+     DSM_ANXIETY2          1.560       1.805       1.000   66.67%       1.000      1.000      1.000
+             234.000       0.887       2.799       5.000    2.14%       1.000      2.000
+     DSM_ANXIETY3          2.128       0.909       1.000   45.73%       1.000      1.000      2.000
+             234.000       1.710      -0.369       5.000    8.55%       2.000      3.000
+     DSM_SLEEP             1.833       1.341       1.000   55.56%       1.000      1.000      1.000
+             234.000       1.335       0.857       5.000    5.13%       2.000      3.000
+     GPA_RE                8.508      -0.239       1.000    0.42%       7.000      8.000      9.000
+             236.000       2.852       1.101      12.000    6.78%       9.000     10.000
+     PIU_1                 2.346       0.514       1.000   27.35%       1.000      2.000      2.000
+             234.000       1.226      -0.308       5.000    5.13%       3.000      3.000
+     PIU_2                 3.030      -0.198       1.000   11.74%       2.000      3.000      3.000
+             230.000       1.316      -0.838       5.000    8.26%       3.000      4.000
+     PIU_3                 2.748       0.049       1.000   18.70%       2.000      3.000      3.000
+             230.000       1.345      -0.763       5.000    6.96%       3.000      4.000
+     PIU_4                 1.649       1.756       1.000   60.96%       1.000      1.000      1.000
+             228.000       1.026       2.590       5.000    3.51%       1.000      2.000
+     PIU_5                 2.665       0.189       1.000   23.91%       1.000      2.000      3.000
+             230.000       1.579      -0.982       5.000    8.70%       3.000      4.000
+     PIU_6                 2.419       0.447       1.000   30.57%       1.000      2.000      2.000
+             229.000       1.536      -0.847       5.000    6.55%       3.000      4.000
+     PIU_7                 2.108       0.973       1.000   41.81%       1.000      1.000      2.000
+             232.000       1.527      -0.064       5.000    7.33%       2.000      3.000
+     PIU_9                 2.044       0.759       1.000   43.86%       1.000      1.000      2.000
+             228.000       1.252      -0.349       5.000    3.07%       2.000      3.000
+     PIU_10                2.498       0.484       1.000   31.39%       1.000      2.000      2.000
+             223.000       1.828      -0.961       5.000   11.66%       3.000      4.000
+     PIU_11                2.356       0.420       1.000   31.56%       1.000      2.000      2.000
+             225.000       1.394      -0.804       5.000    4.44%       3.000      3.000
+     PIU_12                2.147       0.813       1.000   32.76%       1.000      2.000      2.000
+             232.000       1.168       0.049       5.000    3.88%       2.000      3.000
+     PIU_13                1.684       1.603       1.000   59.21%       1.000      1.000      1.000
+             228.000       1.041       1.981       5.000    3.07%       2.000      2.000
+     PIU_14                2.604       0.241       1.000   30.00%       1.000      2.000      3.000
+             230.000       1.770      -1.104       5.000   10.00%       3.000      4.000
+     PIU_15                2.750       0.140       1.000   28.07%       1.000      2.000      3.000
+             228.000       1.995      -1.316       5.000   13.60%       3.000      4.000
+     PIU_16                1.377       2.484       1.000   76.62%       1.000      1.000      1.000
+             231.000       0.650       6.141       5.000    1.30%       1.000      2.000
+     PAR_MONITORING1       5.339       0.649       4.000   28.39%       4.000      5.000      5.000
+             236.000       1.453      -0.650       8.000    5.51%       5.000      7.000
+     PAR_MONITORING2       5.513       0.456       4.000   26.27%       4.000      5.000      5.000
+             236.000       1.682      -1.048       8.000    8.05%       6.000      7.000
+     PAR_MONITORING3       6.318      -0.404       4.000   13.56%       5.000      6.000      7.000
+             236.000       1.827      -1.128       8.000   21.19%       7.000      8.000
+     PAR_MONITORING4       5.597       0.242       4.000   27.97%       4.000      5.000      5.000
+             236.000       1.757      -1.263       8.000    7.63%       6.000      7.000
+     PAR_MONITORING5       6.364      -0.469       4.000   12.29%       5.000      6.000      7.000
+             236.000       1.732      -1.002       8.000   20.76%       7.000      8.000
+     PAR_MONITORING6       5.538       0.348       4.000   29.66%       4.000      5.000      5.000
+             236.000       1.808      -1.241       8.000    8.05%       6.000      7.000
+     PAR_MONITORING7       5.004       1.085       4.000   55.51%       4.000      4.000      4.000
+             236.000       1.860      -0.257       8.000    8.90%       5.000      6.000
+     PAR_MONITORING8       4.945       1.138       4.000   55.51%       4.000      4.000      4.000
+             236.000       1.671      -0.068       8.000    6.36%       5.000      6.000
+     AGE                  16.029       0.132      14.000   10.61%      15.000     16.000     16.000
+             245.000       1.424      -0.598      19.000    1.22%      16.000     17.000
+     GENDER                1.641      -0.587       1.000   35.92%       1.000      2.000      2.000
+             245.000       0.230      -1.655       2.000   64.08%       2.000      2.000
+     AFRICANAM             0.692      -0.833       0.000   30.77%       0.000      1.000      1.000
+             247.000       0.213      -1.306       1.000   69.23%       1.000      1.000
+     LATINO                0.271       1.029       0.000   72.87%       0.000      0.000      0.000
+             247.000       0.198      -0.941       1.000   27.13%       0.000      1.000
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                      176
+
+Loglikelihood
+
+          H0 Value                      -11159.003
+          H1 Value                      -10787.261
+
+Information Criteria
+
+          Akaike (AIC)                   22670.005
+          Bayesian (BIC)                 23287.658
+          Sample-Size Adjusted BIC       22729.740
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                            743.483
+          Degrees of Freedom                   564
+          P-Value                           0.0000
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.036
+          90 Percent C.I.                    0.028  0.043
+          Probability RMSEA <= .05           1.000
+
+CFI/TLI
+
+          CFI                                0.939
+          TLI                                0.928
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                           3581.975
+          Degrees of Freedom                   660
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.060
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ OBSSE    BY
+    PIU_1              1.000      0.000    999.000    999.000
+    PIU_4              0.853      0.102      8.344      0.000
+    PIU_7              1.029      0.125      8.250      0.000
+    PIU_10             1.022      0.130      7.836      0.000
+    PIU_13             0.933      0.141      6.614      0.000
+    PIU_16             0.665      0.106      6.282      0.000
+
+ NEGLECT  BY
+    PIU_2              1.000      0.000    999.000    999.000
+    PIU_5              1.256      0.168      7.493      0.000
+    PIU_11             1.034      0.133      7.788      0.000
+    PIU_14             1.428      0.170      8.422      0.000
+
+ CONTROL  BY
+    PIU_3              1.000      0.000    999.000    999.000
+    PIU_6              1.668      0.286      5.838      0.000
+    PIU_9              0.845      0.184      4.598      0.000
+    PIU_12             1.247      0.238      5.241      0.000
+    PIU_15             2.081      0.399      5.218      0.000
+
+ SUBSTANC BY
+    DSM_DRINKI         1.000      0.000    999.000    999.000
+    DSM_SMOKIN         1.227      0.308      3.989      0.000
+    DSM_PRESCR         0.787      0.213      3.694      0.000
+
+ DEP      BY
+    DSM_DEP1           1.000      0.000    999.000    999.000
+    DSM_DEP2           1.444      0.691      2.088      0.037
+
+ ANX      BY
+    DSM_ANXIET         1.000      0.000    999.000    999.000
+    DSM_ANXIET         1.114      0.133      8.402      0.000
+    DSM_ANXIET         1.061      0.174      6.108      0.000
+
+ MONITORI BY
+    PAR_MONITO         1.000      0.000    999.000    999.000
+    PAR_MONITO         1.219      0.122     10.013      0.000
+    PAR_MONITO         1.360      0.212      6.422      0.000
+    PAR_MONITO         1.166      0.138      8.430      0.000
+    PAR_MONITO         1.308      0.207      6.326      0.000
+    PAR_MONITO         1.349      0.172      7.865      0.000
+    PAR_MONITO         0.987      0.147      6.694      0.000
+    PAR_MONITO         1.010      0.134      7.555      0.000
+
+ PIUTOTAL BY
+    OBSSE              1.000      0.000    999.000    999.000
+    NEGLECT            1.489      0.305      4.881      0.000
+    CONTROL            1.015      0.320      3.168      0.002
+
+ PIUTOTAL ON
+    MONITORING         0.191      0.073      2.609      0.009
+
+ ANX      ON
+    PIUTOTAL           0.005      0.165      0.029      0.977
+    MONITORING         0.167      0.112      1.499      0.134
+
+ DEP      ON
+    PIUTOTAL           0.288      0.180      1.602      0.109
+    MONITORING         0.115      0.099      1.156      0.248
+
+ SUBSTANC ON
+    PIUTOTAL          -0.003      0.084     -0.035      0.972
+    MONITORING        -0.049      0.052     -0.938      0.348
+
+ PIUTOTAL ON
+    AGE               -0.027      0.027     -1.010      0.312
+    GENDER             0.241      0.075      3.196      0.001
+    AFRICANAM          0.197      0.117      1.686      0.092
+    LATINO             0.163      0.110      1.482      0.138
+
+ ANX      ON
+    AGE               -0.031      0.045     -0.681      0.496
+    GENDER            -0.026      0.129     -0.202      0.840
+    AFRICANAM          0.075      0.160      0.471      0.638
+    LATINO             0.107      0.174      0.615      0.539
+
+ DEP      ON
+    AGE                0.036      0.048      0.750      0.453
+    GENDER             0.075      0.120      0.623      0.533
+    AFRICANAM         -0.113      0.166     -0.684      0.494
+    LATINO             0.022      0.174      0.129      0.898
+
+ SUBSTANC ON
+    AGE                0.017      0.030      0.565      0.572
+    GENDER            -0.123      0.072     -1.710      0.087
+    AFRICANAM          0.019      0.064      0.294      0.769
+    LATINO            -0.072      0.065     -1.103      0.270
+
+ GPA_RE   ON
+    PIUTOTAL           0.619      0.322      1.925      0.054
+    MONITORING        -0.538      0.198     -2.717      0.007
+
+ DSM_SLEE ON
+    PIUTOTAL           0.625      0.308      2.030      0.042
+    MONITORING         0.160      0.131      1.217      0.224
+
+ GPA_RE   ON
+    AGE                0.123      0.084      1.466      0.143
+    GENDER             0.641      0.232      2.764      0.006
+    AFRICANAM         -0.052      0.460     -0.113      0.910
+    LATINO            -0.198      0.449     -0.442      0.658
+
+ DSM_SLEE ON
+    AGE                0.030      0.067      0.452      0.651
+    GENDER             0.129      0.157      0.817      0.414
+    AFRICANAM         -0.052      0.260     -0.200      0.841
+    LATINO             0.048      0.262      0.184      0.854
+
+ DEP      WITH
+    SUBSTANCE          0.102      0.039      2.592      0.010
+
+ ANX      WITH
+    SUBSTANCE          0.167      0.047      3.568      0.000
+    DEP                0.301      0.075      4.015      0.000
+
+ DSM_SLEE WITH
+    SUBSTANCE          0.163      0.047      3.447      0.001
+    DEP                0.263      0.077      3.410      0.001
+    ANX                0.426      0.094      4.517      0.000
+
+ GPA_RE   WITH
+    SUBSTANCE         -0.075      0.048     -1.580      0.114
+    DEP                0.035      0.083      0.426      0.670
+    ANX               -0.087      0.081     -1.073      0.283
+
+ AGE      WITH
+    MONITORING         0.060      0.063      0.951      0.342
+
+ GENDER   WITH
+    MONITORING         0.004      0.026      0.163      0.871
+
+ AFRICANA WITH
+    MONITORING        -0.018      0.025     -0.710      0.478
+
+ LATINO   WITH
+    MONITORING        -0.009      0.023     -0.375      0.708
+
+ PIU_3    WITH
+    PIU_6              0.251      0.088      2.860      0.004
+    PIU_12             0.176      0.060      2.929      0.003
+
+ PIU_12   WITH
+    PIU_11             0.283      0.060      4.720      0.000
+
+ PIU_4    WITH
+    PIU_16             0.219      0.047      4.683      0.000
+
+ PIU_7    WITH
+    PIU_10             0.424      0.099      4.271      0.000
+
+ PIU_13   WITH
+    PIU_1             -0.186      0.061     -3.030      0.002
+
+ DSM_ANXI WITH
+    DSM_DEP2           0.300      0.109      2.766      0.006
+    DSM_SMOKIN        -0.066      0.039     -1.708      0.088
+
+ DSM_ANXI WITH
+    DSM_SMOKIN         0.045      0.045      1.001      0.317
+
+ PAR_MONI WITH
+    PAR_MONITO         0.633      0.115      5.505      0.000
+    PAR_MONITO        -0.221      0.081     -2.736      0.006
+
+ PAR_MONI WITH
+    PAR_MONITO         0.322      0.114      2.827      0.005
+
+ PAR_MONI WITH
+    PAR_MONITO        -0.281      0.079     -3.576      0.000
+
+ PAR_MONI WITH
+    PAR_MONITO         0.284      0.095      2.980      0.003
+
+ AGE      WITH
+    GENDER             0.000      0.000    999.000    999.000
+
+ GPA_RE   WITH
+    DSM_SLEEP         -0.203      0.112     -1.818      0.069
+
+ AFRICANA WITH
+    AGE               -0.049      0.035     -1.383      0.167
+    GENDER             0.018      0.014      1.278      0.201
+
+ LATINO   WITH
+    AGE                0.010      0.035      0.280      0.779
+    GENDER            -0.011      0.014     -0.795      0.427
+    AFRICANAM         -0.155      0.014    -11.387      0.000
+
+ Means
+    AGE               16.031      0.074    216.829      0.000
+    GENDER             1.640      0.032     51.200      0.000
+    AFRICANAM          0.692      0.030     22.886      0.000
+    LATINO             0.271      0.029      9.376      0.000
+
+ Intercepts
+    DSM_DRINKI         1.129      0.475      2.375      0.018
+    DSM_SMOKIN         1.119      0.607      1.842      0.065
+    DSM_PRESCR         1.104      0.380      2.906      0.004
+    DSM_DEP1           1.512      0.797      1.897      0.058
+    DSM_DEP2           1.141      1.120      1.018      0.308
+    DSM_ANXIET         2.297      0.759      3.025      0.002
+    DSM_ANXIET         2.066      0.834      2.479      0.013
+    DSM_ANXIET         2.611      0.825      3.163      0.002
+    DSM_SLEEP          1.074      1.194      0.899      0.368
+    GPA_RE             5.493      1.431      3.839      0.000
+    PIU_1              2.212      0.454      4.878      0.000
+    PIU_2              2.825      0.700      4.035      0.000
+    PIU_3              2.604      0.488      5.339      0.000
+    PIU_4              1.539      0.399      3.857      0.000
+    PIU_5              2.423      0.872      2.778      0.005
+    PIU_6              2.186      0.787      2.776      0.006
+    PIU_7              1.974      0.481      4.103      0.000
+    PIU_9              1.931      0.422      4.581      0.000
+    PIU_10             2.389      0.479      4.989      0.000
+    PIU_11             2.158      0.726      2.974      0.003
+    PIU_12             1.980      0.601      3.295      0.001
+    PIU_13             1.571      0.431      3.641      0.000
+    PIU_14             2.322      0.988      2.349      0.019
+    PIU_15             2.468      0.977      2.526      0.012
+    PIU_16             1.298      0.310      4.192      0.000
+    PAR_MONITO         5.339      0.077     69.422      0.000
+    PAR_MONITO         5.513      0.083     66.059      0.000
+    PAR_MONITO         6.318      0.085     73.909      0.000
+    PAR_MONITO         5.597      0.083     67.408      0.000
+    PAR_MONITO         6.364      0.086     73.742      0.000
+    PAR_MONITO         5.538      0.086     64.106      0.000
+    PAR_MONITO         5.004      0.087     57.212      0.000
+    PAR_MONITO         4.945      0.081     60.713      0.000
+
+ Variances
+    AGE                1.424      0.108     13.141      0.000
+    GENDER             0.230      0.009     25.560      0.000
+    AFRICANAM          0.213      0.012     18.244      0.000
+    LATINO             0.198      0.013     14.917      0.000
+    MONITORING         0.496      0.107      4.644      0.000
+
+ Residual Variances
+    DSM_DRINKI         0.161      0.045      3.576      0.000
+    DSM_SMOKIN         0.134      0.071      1.891      0.059
+    DSM_PRESCR         0.168      0.057      2.944      0.003
+    DSM_DEP1           1.017      0.126      8.098      0.000
+    DSM_DEP2           0.862      0.258      3.342      0.001
+    DSM_ANXIET         0.690      0.125      5.505      0.000
+    DSM_ANXIET         0.182      0.072      2.518      0.012
+    DSM_ANXIET         1.068      0.168      6.370      0.000
+    DSM_SLEEP          1.202      0.132      9.138      0.000
+    GPA_RE             2.526      0.246     10.273      0.000
+    PIU_1              0.568      0.085      6.650      0.000
+    PIU_2              0.815      0.098      8.303      0.000
+    PIU_3              1.051      0.101     10.461      0.000
+    PIU_4              0.546      0.083      6.603      0.000
+    PIU_5              0.775      0.118      6.576      0.000
+    PIU_6              0.741      0.103      7.196      0.000
+    PIU_7              0.828      0.114      7.275      0.000
+    PIU_9              1.047      0.109      9.603      0.000
+    PIU_10             1.137      0.120      9.441      0.000
+    PIU_11             0.836      0.094      8.911      0.000
+    PIU_12             0.707      0.097      7.270      0.000
+    PIU_13             0.467      0.102      4.562      0.000
+    PIU_14             0.730      0.119      6.143      0.000
+    PIU_15             0.754      0.115      6.532      0.000
+    PIU_16             0.362      0.051      7.139      0.000
+    PAR_MONITO         0.956      0.109      8.737      0.000
+    PAR_MONITO         0.944      0.107      8.818      0.000
+    PAR_MONITO         0.886      0.128      6.909      0.000
+    PAR_MONITO         1.082      0.115      9.381      0.000
+    PAR_MONITO         0.883      0.107      8.236      0.000
+    PAR_MONITO         0.904      0.116      7.777      0.000
+    PAR_MONITO         1.377      0.145      9.521      0.000
+    PAR_MONITO         1.165      0.120      9.697      0.000
+    OBSSE              0.431      0.091      4.753      0.000
+    NEGLECT            0.008      0.083      0.097      0.923
+    CONTROL            0.053      0.043      1.213      0.225
+    PIUTOTAL           0.188      0.057      3.297      0.001
+    SUBSTANCE          0.168      0.065      2.584      0.010
+    DEP                0.285      0.094      3.039      0.002
+    ANX                0.554      0.127      4.361      0.000
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ OBSSE    BY
+    PIU_1              0.732      0.051     14.291      0.000
+    PIU_4              0.683      0.055     12.396      0.000
+    PIU_7              0.675      0.053     12.717      0.000
+    PIU_10             0.613      0.051     12.001      0.000
+    PIU_13             0.741      0.065     11.406      0.000
+    PIU_16             0.667      0.056     11.887      0.000
+
+ NEGLECT  BY
+    PIU_2              0.618      0.054     11.423      0.000
+    PIU_5              0.711      0.052     13.562      0.000
+    PIU_11             0.626      0.050     12.559      0.000
+    PIU_14             0.764      0.045     16.871      0.000
+
+ CONTROL  BY
+    PIU_3              0.460      0.069      6.714      0.000
+    PIU_6              0.718      0.050     14.349      0.000
+    PIU_9              0.402      0.071      5.665      0.000
+    PIU_12             0.619      0.057     10.840      0.000
+    PIU_15             0.787      0.038     20.448      0.000
+
+ SUBSTANC BY
+    DSM_DRINKI         0.721      0.095      7.624      0.000
+    DSM_SMOKIN         0.813      0.091      8.895      0.000
+    DSM_PRESCR         0.625      0.093      6.749      0.000
+
+ DEP      BY
+    DSM_DEP1           0.492      0.077      6.396      0.000
+    DSM_DEP2           0.663      0.092      7.203      0.000
+
+ ANX      BY
+    DSM_ANXIET         0.673      0.066     10.181      0.000
+    DSM_ANXIET         0.892      0.050     17.835      0.000
+    DSM_ANXIET         0.613      0.065      9.359      0.000
+
+ MONITORI BY
+    PAR_MONITO         0.584      0.057     10.216      0.000
+    PAR_MONITO         0.662      0.045     14.655      0.000
+    PAR_MONITO         0.713      0.054     13.312      0.000
+    PAR_MONITO         0.620      0.052     11.951      0.000
+    PAR_MONITO         0.700      0.049     14.420      0.000
+    PAR_MONITO         0.707      0.044     15.936      0.000
+    PAR_MONITO         0.510      0.058      8.845      0.000
+    PAR_MONITO         0.550      0.061      8.998      0.000
+
+ PIUTOTAL BY
+    OBSSE              0.584      0.071      8.243      0.000
+    NEGLECT            0.992      0.079     12.480      0.000
+    CONTROL            0.902      0.076     11.900      0.000
+
+ PIUTOTAL ON
+    MONITORING         0.284      0.086      3.312      0.001
+
+ ANX      ON
+    PIUTOTAL           0.003      0.097      0.031      0.975
+    MONITORING         0.156      0.094      1.669      0.095
+
+ DEP      ON
+    PIUTOTAL           0.239      0.117      2.035      0.042
+    MONITORING         0.142      0.119      1.186      0.236
+
+ SUBSTANC ON
+    PIUTOTAL          -0.003      0.089     -0.037      0.970
+    MONITORING        -0.083      0.084     -0.980      0.327
+
+ PIUTOTAL ON
+    AGE               -0.069      0.068     -1.010      0.313
+    GENDER             0.244      0.072      3.404      0.001
+    AFRICANAM          0.192      0.103      1.863      0.062
+    LATINO             0.154      0.097      1.586      0.113
+
+ ANX      ON
+    AGE               -0.049      0.072     -0.678      0.498
+    GENDER            -0.017      0.082     -0.203      0.839
+    AFRICANAM          0.046      0.099      0.465      0.642
+    LATINO             0.063      0.102      0.614      0.539
+
+ DEP      ON
+    AGE                0.075      0.100      0.754      0.451
+    GENDER             0.063      0.099      0.635      0.525
+    AFRICANAM         -0.092      0.134     -0.685      0.493
+    LATINO             0.018      0.136      0.129      0.897
+
+ SUBSTANC ON
+    AGE                0.048      0.083      0.582      0.561
+    GENDER            -0.142      0.074     -1.914      0.056
+    AFRICANAM          0.021      0.070      0.294      0.769
+    LATINO            -0.077      0.073     -1.057      0.290
+
+ GPA_RE   ON
+    PIUTOTAL           0.174      0.078      2.219      0.026
+    MONITORING        -0.225      0.077     -2.917      0.004
+
+ DSM_SLEE ON
+    PIUTOTAL           0.256      0.101      2.543      0.011
+    MONITORING         0.097      0.077      1.271      0.204
+
+ GPA_RE   ON
+    AGE                0.087      0.059      1.467      0.142
+    GENDER             0.182      0.065      2.806      0.005
+    AFRICANAM         -0.014      0.126     -0.113      0.910
+    LATINO            -0.052      0.119     -0.439      0.660
+
+ DSM_SLEE ON
+    AGE                0.031      0.070      0.452      0.652
+    GENDER             0.053      0.065      0.819      0.413
+    AFRICANAM         -0.021      0.104     -0.200      0.841
+    LATINO             0.019      0.102      0.183      0.855
+
+ DEP      WITH
+    SUBSTANCE          0.468      0.119      3.920      0.000
+
+ ANX      WITH
+    SUBSTANCE          0.548      0.091      6.046      0.000
+    DEP                0.758      0.102      7.451      0.000
+
+ DSM_SLEE WITH
+    SUBSTANCE          0.363      0.062      5.871      0.000
+    DEP                0.449      0.098      4.567      0.000
+    ANX                0.522      0.080      6.501      0.000
+
+ GPA_RE   WITH
+    SUBSTANCE         -0.116      0.072     -1.610      0.107
+    DEP                0.042      0.103      0.402      0.687
+    ANX               -0.074      0.073     -1.009      0.313
+
+ AGE      WITH
+    MONITORING         0.071      0.074      0.965      0.334
+
+ GENDER   WITH
+    MONITORING         0.012      0.077      0.162      0.872
+
+ AFRICANA WITH
+    MONITORING        -0.055      0.077     -0.720      0.471
+
+ LATINO   WITH
+    MONITORING        -0.028      0.074     -0.375      0.708
+
+ PIU_3    WITH
+    PIU_6              0.284      0.084      3.400      0.001
+    PIU_12             0.205      0.066      3.080      0.002
+
+ PIU_12   WITH
+    PIU_11             0.368      0.067      5.474      0.000
+
+ PIU_4    WITH
+    PIU_16             0.492      0.074      6.628      0.000
+
+ PIU_7    WITH
+    PIU_10             0.437      0.073      5.994      0.000
+
+ PIU_13   WITH
+    PIU_1             -0.360      0.158     -2.279      0.023
+
+ DSM_ANXI WITH
+    DSM_DEP2           0.389      0.108      3.609      0.000
+    DSM_SMOKIN        -0.217      0.129     -1.687      0.092
+
+ DSM_ANXI WITH
+    DSM_SMOKIN         0.291      0.304      0.955      0.340
+
+ PAR_MONI WITH
+    PAR_MONITO         0.500      0.076      6.608      0.000
+    PAR_MONITO        -0.218      0.089     -2.439      0.015
+
+ PAR_MONI WITH
+    PAR_MONITO         0.364      0.101      3.608      0.000
+
+ PAR_MONI WITH
+    PAR_MONITO        -0.254      0.077     -3.301      0.001
+
+ PAR_MONI WITH
+    PAR_MONITO         0.299      0.089      3.346      0.001
+
+ AGE      WITH
+    GENDER             0.000      0.000      0.000      1.000
+
+ GPA_RE   WITH
+    DSM_SLEEP         -0.117      0.066     -1.770      0.077
+
+ AFRICANA WITH
+    AGE               -0.089      0.065     -1.378      0.168
+    GENDER             0.081      0.064      1.271      0.204
+
+ LATINO   WITH
+    AGE                0.018      0.066      0.279      0.780
+    GENDER            -0.051      0.065     -0.791      0.429
+    AFRICANAM         -0.757      0.045    -16.710      0.000
+
+ Means
+    AGE               13.432      0.515     26.073      0.000
+    GENDER             3.421      0.136     25.233      0.000
+    AFRICANAM          1.500      0.108     13.847      0.000
+    LATINO             0.610      0.045     13.615      0.000
+
+ Intercepts
+    DSM_DRINKI         1.951      0.876      2.226      0.026
+    DSM_SMOKIN         1.777      1.035      1.718      0.086
+    DSM_PRESCR         2.103      0.831      2.530      0.011
+    DSM_DEP1           1.306      0.690      1.891      0.059
+    DSM_DEP2           0.920      0.908      1.013      0.311
+    DSM_ANXIET         2.046      0.685      2.989      0.003
+    DSM_ANXIET         2.192      0.909      2.411      0.016
+    DSM_ANXIET         1.996      0.622      3.212      0.001
+    DSM_SLEEP          0.929      1.040      0.894      0.371
+    GPA_RE             3.257      0.899      3.621      0.000
+    PIU_1              2.001      0.428      4.670      0.000
+    PIU_2              2.460      0.634      3.879      0.000
+    PIU_3              2.255      0.441      5.108      0.000
+    PIU_4              1.523      0.403      3.781      0.000
+    PIU_5              1.934      0.708      2.732      0.006
+    PIU_6              1.768      0.645      2.740      0.006
+    PIU_7              1.601      0.391      4.092      0.000
+    PIU_9              1.728      0.382      4.522      0.000
+    PIU_10             1.771      0.365      4.854      0.000
+    PIU_11             1.841      0.626      2.939      0.003
+    PIU_12             1.848      0.560      3.300      0.001
+    PIU_13             1.543      0.436      3.536      0.000
+    PIU_14             1.752      0.756      2.319      0.020
+    PIU_15             1.755      0.706      2.485      0.013
+    PIU_16             1.608      0.421      3.824      0.000
+    PAR_MONITO         4.430      0.142     31.179      0.000
+    PAR_MONITO         4.252      0.127     33.426      0.000
+    PAR_MONITO         4.705      0.179     26.250      0.000
+    PAR_MONITO         4.223      0.119     35.490      0.000
+    PAR_MONITO         4.838      0.199     24.368      0.000
+    PAR_MONITO         4.120      0.110     37.460      0.000
+    PAR_MONITO         3.670      0.120     30.589      0.000
+    PAR_MONITO         3.826      0.130     29.450      0.000
+
+ Variances
+    AGE                1.000      0.000    999.000    999.000
+    GENDER             1.000      0.000    999.000    999.000
+    AFRICANAM          1.000      0.000    999.000    999.000
+    LATINO             1.000      0.000    999.000    999.000
+    MONITORING         1.000      0.000    999.000    999.000
+
+ Residual Variances
+    DSM_DRINKI         0.481      0.128      3.747      0.000
+    DSM_SMOKIN         0.339      0.146      2.323      0.020
+    DSM_PRESCR         0.609      0.116      5.256      0.000
+    DSM_DEP1           0.758      0.074     10.260      0.000
+    DSM_DEP2           0.560      0.154      3.629      0.000
+    DSM_ANXIET         0.548      0.087      6.308      0.000
+    DSM_ANXIET         0.205      0.088      2.318      0.020
+    DSM_ANXIET         0.625      0.079      7.889      0.000
+    DSM_SLEEP          0.901      0.050     18.094      0.000
+    GPA_RE             0.888      0.047     18.969      0.000
+    PIU_1              0.465      0.074      6.276      0.000
+    PIU_2              0.618      0.067      9.254      0.000
+    PIU_3              0.788      0.062     12.652      0.000
+    PIU_4              0.534      0.074      7.250      0.000
+    PIU_5              0.494      0.073      6.722      0.000
+    PIU_6              0.485      0.071      6.837      0.000
+    PIU_7              0.545      0.071      7.698      0.000
+    PIU_9              0.838      0.057     14.620      0.000
+    PIU_10             0.625      0.062     10.054      0.000
+    PIU_11             0.609      0.062      9.863      0.000
+    PIU_12             0.617      0.070      8.823      0.000
+    PIU_13             0.451      0.095      4.728      0.000
+    PIU_14             0.416      0.069      6.071      0.000
+    PIU_15             0.381      0.060      6.365      0.000
+    PIU_16             0.555      0.073      7.583      0.000
+    PAR_MONITO         0.658      0.066      9.973      0.000
+    PAR_MONITO         0.562      0.059      9.455      0.000
+    PAR_MONITO         0.491      0.075      6.509      0.000
+    PAR_MONITO         0.616      0.064      9.653      0.000
+    PAR_MONITO         0.510      0.067      7.570      0.000
+    PAR_MONITO         0.500      0.062      8.040      0.000
+    PAR_MONITO         0.740      0.058     12.753      0.000
+    PAR_MONITO         0.697      0.066     10.596      0.000
+    OBSSE              0.659      0.079      8.294      0.000
+    NEGLECT            0.016      0.167      0.096      0.924
+    CONTROL            0.186      0.137      1.361      0.174
+    PIUTOTAL           0.843      0.051     16.421      0.000
+    SUBSTANCE          0.964      0.033     29.279      0.000
+    DEP                0.879      0.077     11.437      0.000
+    ANX                0.973      0.035     28.200      0.000
+
+
+R-SQUARE
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    DSM_DRIN           0.519      0.128      4.047      0.000
+    DSM_SMOK           0.661      0.146      4.522      0.000
+    DSM_PRES           0.391      0.116      3.375      0.001
+    DSM_DEP1           0.242      0.074      3.273      0.001
+    DSM_DEP2           0.440      0.154      2.847      0.004
+    DSM_ANXI           0.452      0.087      5.210      0.000
+    DSM_ANXI           0.795      0.088      8.991      0.000
+    DSM_ANXI           0.375      0.079      4.738      0.000
+    DSM_SLEE           0.099      0.050      1.985      0.047
+    GPA_RE             0.112      0.047      2.398      0.016
+    PIU_1              0.535      0.074      7.227      0.000
+    PIU_2              0.382      0.067      5.713      0.000
+    PIU_3              0.212      0.062      3.403      0.001
+    PIU_4              0.466      0.074      6.323      0.000
+    PIU_5              0.506      0.073      6.887      0.000
+    PIU_6              0.515      0.071      7.255      0.000
+    PIU_7              0.455      0.071      6.437      0.000
+    PIU_9              0.162      0.057      2.821      0.005
+    PIU_10             0.375      0.062      6.044      0.000
+    PIU_11             0.391      0.062      6.346      0.000
+    PIU_12             0.383      0.070      5.488      0.000
+    PIU_13             0.549      0.095      5.766      0.000
+    PIU_14             0.584      0.069      8.526      0.000
+    PIU_15             0.619      0.060     10.343      0.000
+    PIU_16             0.445      0.073      6.070      0.000
+    PAR_MONI           0.342      0.066      5.173      0.000
+    PAR_MONI           0.438      0.059      7.383      0.000
+    PAR_MONI           0.509      0.075      6.737      0.000
+    PAR_MONI           0.384      0.064      6.012      0.000
+    PAR_MONI           0.490      0.067      7.274      0.000
+    PAR_MONI           0.500      0.062      8.030      0.000
+    PAR_MONI           0.260      0.058      4.472      0.000
+    PAR_MONI           0.303      0.066      4.599      0.000
+
+     Latent                                         Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    OBSSE              0.341      0.079      4.301      0.000
+    NEGLECT            0.984      0.167      5.902      0.000
+    CONTROL            0.814      0.137      5.961      0.000
+    PIUTOTAL           0.157      0.051      3.067      0.002
+    SUBSTANC           0.036      0.033      1.096      0.273
+    DEP                0.121      0.077      1.573      0.116
+    ANX                0.027      0.035      0.777      0.437
+
+
+TOTAL, TOTAL INDIRECT, SPECIFIC INDIRECT, AND DIRECT EFFECTS
+
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Effects from MONITORI to GPA_RE
+
+  Indirect             0.118      0.077      1.542      0.123
+
+Effects from MONITORI to DSM_SLEE
+
+  Indirect             0.119      0.060      1.975      0.048
+
+Effects from MONITORI to SUBSTANC
+
+  Indirect            -0.001      0.016     -0.035      0.972
+
+Effects from MONITORI to DEP
+
+  Indirect             0.055      0.033      1.669      0.095
+
+Effects from MONITORI to ANX
+
+  Indirect             0.001      0.031      0.029      0.977
+
+
+STANDARDIZED TOTAL, TOTAL INDIRECT, SPECIFIC INDIRECT, AND DIRECT EFFECTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Effects from MONITORI to GPA_RE
+
+  Indirect             0.049      0.030      1.625      0.104
+
+Effects from MONITORI to DSM_SLEE
+
+  Indirect             0.073      0.035      2.103      0.035
+
+Effects from MONITORI to SUBSTANC
+
+  Indirect            -0.001      0.026     -0.036      0.971
+
+Effects from MONITORI to DEP
+
+  Indirect             0.068      0.037      1.815      0.070
+
+Effects from MONITORI to ANX
+
+  Indirect             0.001      0.029      0.029      0.976
+
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+ OBSSE    BY
+    PIU_1            1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PIU_4            0.591       0.643       0.691       0.853       1.023       1.049       1.129
+    PIU_7            0.708       0.806       0.844       1.029       1.255       1.308       1.382
+    PIU_10           0.702       0.807       0.834       1.022       1.243       1.330       1.427
+    PIU_13           0.624       0.690       0.726       0.933       1.179       1.242       1.350
+    PIU_16           0.372       0.458       0.497       0.665       0.839       0.869       0.933
+
+ NEGLECT  BY
+    PIU_2            1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PIU_5            0.862       0.950       0.997       1.256       1.542       1.612       1.760
+    PIU_11           0.720       0.790       0.823       1.034       1.271       1.320       1.400
+    PIU_14           1.068       1.130       1.171       1.428       1.725       1.797       1.913
+
+ CONTROL  BY
+    PIU_3            1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PIU_6            1.172       1.291       1.331       1.668       2.203       2.348       2.911
+    PIU_9            0.462       0.551       0.602       0.845       1.188       1.280       1.429
+    PIU_12           0.822       0.901       0.960       1.247       1.717       1.781       2.142
+    PIU_15           1.412       1.536       1.599       2.081       2.891       3.067       3.555
+
+ SUBSTANC BY
+    DSM_DRINKI       1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    DSM_SMOKIN       0.806       0.893       0.938       1.227       1.786       2.014       2.800
+    DSM_PRESCR       0.420       0.491       0.545       0.787       1.215       1.332       1.519
+
+ DEP      BY
+    DSM_DEP1         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    DSM_DEP2         0.844       1.005       1.061       1.444       2.138       2.343       2.904
+
+ ANX      BY
+    DSM_ANXIET       1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    DSM_ANXIET       0.829       0.904       0.934       1.114       1.363       1.417       1.544
+    DSM_ANXIET       0.734       0.790       0.831       1.061       1.381       1.457       1.646
+
+ MONITORI BY
+    PAR_MONITO       1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PAR_MONITO       0.949       1.031       1.058       1.219       1.450       1.498       1.595
+    PAR_MONITO       0.888       0.998       1.067       1.360       1.740       1.853       2.052
+    PAR_MONITO       0.884       0.945       0.975       1.166       1.436       1.492       1.652
+    PAR_MONITO       0.892       0.978       1.021       1.308       1.708       1.787       2.022
+    PAR_MONITO       1.015       1.077       1.098       1.349       1.670       1.734       1.861
+    PAR_MONITO       0.618       0.727       0.770       0.987       1.254       1.297       1.460
+    PAR_MONITO       0.692       0.772       0.800       1.010       1.236       1.291       1.422
+
+ PIUTOTAL BY
+    OBSSE            1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    NEGLECT          1.054       1.122       1.176       1.489       2.099       2.297       2.679
+    CONTROL          0.498       0.615       0.661       1.015       1.637       1.789       2.235
+
+ PIUTOTAL ON
+    MONITORING       0.009       0.050       0.077       0.191       0.310       0.339       0.403
+
+ ANX      ON
+    PIUTOTAL        -0.471      -0.308      -0.262       0.005       0.273       0.332       0.506
+    MONITORING      -0.076      -0.017       0.000       0.167       0.369       0.417       0.543
+
+ DEP      ON
+    PIUTOTAL        -0.104      -0.019       0.028       0.288       0.585       0.656       0.866
+    MONITORING      -0.167      -0.068      -0.035       0.115       0.288       0.323       0.406
+
+ SUBSTANC ON
+    PIUTOTAL        -0.221      -0.166      -0.140      -0.003       0.126       0.163       0.253
+    MONITORING      -0.200      -0.159      -0.136      -0.049       0.035       0.054       0.096
+
+ PIUTOTAL ON
+    AGE             -0.097      -0.080      -0.073      -0.027       0.018       0.026       0.043
+    GENDER           0.035       0.087       0.113       0.241       0.360       0.387       0.423
+    AFRICANAM       -0.066      -0.010       0.014       0.197       0.408       0.453       0.542
+    LATINO          -0.127      -0.040      -0.013       0.163       0.353       0.399       0.479
+
+ ANX      ON
+    AGE             -0.158      -0.129      -0.112      -0.031       0.041       0.053       0.083
+    GENDER          -0.374      -0.274      -0.225      -0.026       0.198       0.238       0.329
+    AFRICANAM       -0.374      -0.241      -0.192       0.075       0.325       0.379       0.491
+    LATINO          -0.322      -0.215      -0.173       0.107       0.392       0.443       0.599
+
+ DEP      ON
+    AGE             -0.081      -0.060      -0.041       0.036       0.113       0.133       0.168
+    GENDER          -0.183      -0.146      -0.114       0.075       0.292       0.336       0.413
+    AFRICANAM       -0.611      -0.440      -0.397      -0.113       0.151       0.190       0.276
+    LATINO          -0.437      -0.322      -0.255       0.022       0.303       0.358       0.497
+
+ SUBSTANC ON
+    AGE             -0.056      -0.036      -0.028       0.017       0.069       0.081       0.109
+    GENDER          -0.324      -0.285      -0.245      -0.123      -0.003       0.018       0.059
+    AFRICANAM       -0.168      -0.109      -0.093       0.019       0.116       0.136       0.211
+    LATINO          -0.236      -0.199      -0.179      -0.072       0.034       0.055       0.095
+
+ GPA_RE   ON
+    PIUTOTAL        -0.201       0.010       0.132       0.619       1.177       1.256       1.600
+    MONITORING      -1.072      -0.930      -0.865      -0.538      -0.208      -0.152      -0.029
+
+ DSM_SLEE ON
+    PIUTOTAL        -0.043       0.108       0.176       0.625       1.153       1.311       1.652
+    MONITORING      -0.152      -0.080      -0.041       0.160       0.383       0.432       0.504
+
+ GPA_RE   ON
+    AGE             -0.081      -0.032      -0.009       0.123       0.272       0.305       0.342
+    GENDER           0.015       0.197       0.261       0.641       1.016       1.092       1.213
+    AFRICANAM       -1.254      -0.951      -0.827      -0.052       0.687       0.891       1.194
+    LATINO          -1.361      -1.106      -0.973      -0.198       0.536       0.705       0.920
+
+ DSM_SLEE ON
+    AGE             -0.137      -0.096      -0.076       0.030       0.146       0.166       0.195
+    GENDER          -0.295      -0.194      -0.118       0.129       0.390       0.435       0.536
+    AFRICANAM       -0.724      -0.533      -0.485      -0.052       0.373       0.444       0.640
+    LATINO          -0.609      -0.460      -0.385       0.048       0.484       0.551       0.789
+
+ DEP      WITH
+    SUBSTANCE        0.015       0.030       0.039       0.102       0.164       0.180       0.218
+
+ ANX      WITH
+    SUBSTANCE        0.045       0.074       0.084       0.167       0.240       0.255       0.282
+    DEP              0.118       0.152       0.171       0.301       0.415       0.442       0.503
+
+ DSM_SLEE WITH
+    SUBSTANCE        0.054       0.071       0.081       0.163       0.235       0.262       0.293
+    DEP              0.072       0.112       0.137       0.263       0.388       0.413       0.456
+    ANX              0.212       0.248       0.271       0.426       0.576       0.620       0.673
+
+ GPA_RE   WITH
+    SUBSTANCE       -0.221      -0.170      -0.155      -0.075       0.001       0.013       0.040
+    DEP             -0.185      -0.139      -0.107       0.035       0.166       0.195       0.249
+    ANX             -0.297      -0.247      -0.220      -0.087       0.044       0.090       0.142
+
+ AGE      WITH
+    MONITORING      -0.112      -0.059      -0.040       0.060       0.168       0.192       0.234
+
+ GENDER   WITH
+    MONITORING      -0.076      -0.053      -0.041       0.004       0.041       0.050       0.061
+
+ AFRICANA WITH
+    MONITORING      -0.082      -0.074      -0.063      -0.018       0.023       0.029       0.042
+
+ LATINO   WITH
+    MONITORING      -0.066      -0.050      -0.044      -0.009       0.031       0.038       0.052
+
+ PIU_3    WITH
+    PIU_6            0.031       0.079       0.105       0.251       0.396       0.436       0.483
+    PIU_12           0.032       0.054       0.070       0.176       0.271       0.290       0.324
+
+ PIU_12   WITH
+    PIU_11           0.128       0.161       0.176       0.283       0.383       0.398       0.424
+
+ PIU_4    WITH
+    PIU_16           0.107       0.128       0.142       0.219       0.295       0.315       0.350
+
+ PIU_7    WITH
+    PIU_10           0.181       0.233       0.253       0.424       0.578       0.607       0.673
+
+ PIU_13   WITH
+    PIU_1           -0.385      -0.321      -0.290      -0.186      -0.095      -0.076      -0.034
+
+ DSM_ANXI WITH
+    DSM_DEP2         0.041       0.089       0.126       0.300       0.486       0.521       0.578
+    DSM_SMOKIN      -0.170      -0.144      -0.129      -0.066      -0.001       0.009       0.022
+
+ DSM_ANXI WITH
+    DSM_SMOKIN      -0.066      -0.035      -0.024       0.045       0.123       0.144       0.165
+
+ PAR_MONI WITH
+    PAR_MONITO       0.320       0.393       0.439       0.633       0.808       0.844       0.957
+    PAR_MONITO      -0.423      -0.364      -0.337      -0.221      -0.077      -0.046       0.005
+
+ PAR_MONI WITH
+    PAR_MONITO       0.032       0.090       0.140       0.322       0.517       0.558       0.628
+
+ PAR_MONI WITH
+    PAR_MONITO      -0.470      -0.426      -0.402      -0.281      -0.144      -0.115      -0.073
+
+ PAR_MONI WITH
+    PAR_MONITO       0.052       0.100       0.129       0.284       0.432       0.471       0.531
+
+ AGE      WITH
+    GENDER           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ GPA_RE   WITH
+    DSM_SLEEP       -0.464      -0.403      -0.376      -0.203       0.004       0.035       0.094
+
+ AFRICANA WITH
+    AGE             -0.141      -0.116      -0.107      -0.049       0.010       0.023       0.040
+    GENDER          -0.018      -0.009      -0.005       0.018       0.041       0.047       0.058
+
+ LATINO   WITH
+    AGE             -0.085      -0.060      -0.047       0.010       0.067       0.080       0.101
+    GENDER          -0.051      -0.039      -0.035      -0.011       0.011       0.016       0.026
+    AFRICANAM       -0.189      -0.182      -0.177      -0.155      -0.134      -0.129      -0.121
+
+ Means
+    AGE             15.823      15.891      15.909      16.031      16.153      16.176      16.220
+    GENDER           1.546       1.575       1.587       1.640       1.691       1.700       1.724
+    AFRICANA         0.611       0.632       0.640       0.692       0.741       0.753       0.765
+    LATINO           0.194       0.219       0.223       0.271       0.320       0.332       0.344
+
+ Intercepts
+    DSM_DRIN        -0.322       0.169       0.287       1.129       1.837       1.964       2.283
+    DSM_SMOK        -0.591      -0.080       0.159       1.119       2.181       2.402       2.791
+    DSM_PRES         0.023       0.384       0.500       1.104       1.749       1.898       2.147
+    DSM_DEP1        -0.685      -0.197       0.152       1.512       2.766       2.973       3.458
+    DSM_DEP2        -2.094      -1.211      -0.727       1.141       3.050       3.292       3.819
+    DSM_ANXI         0.298       0.859       1.135       2.297       3.581       3.859       4.404
+    DSM_ANXI        -0.228       0.439       0.715       2.066       3.443       3.736       4.378
+    DSM_ANXI         0.591       1.093       1.345       2.611       4.038       4.430       4.947
+    DSM_SLEE        -1.871      -1.418      -1.014       1.074       2.857       3.413       3.910
+    GPA_RE           1.728       2.569       2.909       5.493       7.691       8.050       9.145
+    PIU_1            0.947       1.325       1.462       2.212       2.958       3.097       3.338
+    PIU_2            0.869       1.446       1.618       2.825       3.955       4.143       4.474
+    PIU_3            1.073       1.580       1.752       2.604       3.339       3.552       3.829
+    PIU_4            0.436       0.758       0.893       1.539       2.202       2.350       2.607
+    PIU_5           -0.053       0.629       0.951       2.423       3.791       4.140       4.429
+    PIU_6            0.090       0.611       0.879       2.186       3.455       3.704       4.011
+    PIU_7            0.717       1.060       1.225       1.974       2.792       2.941       3.294
+    PIU_9            0.661       0.985       1.220       1.931       2.565       2.696       2.918
+    PIU_10           1.042       1.471       1.603       2.389       3.184       3.357       3.602
+    PIU_11           0.267       0.700       0.952       2.158       3.324       3.553       3.943
+    PIU_12           0.252       0.776       0.993       1.980       2.965       3.152       3.482
+    PIU_13           0.286       0.711       0.870       1.571       2.272       2.421       2.599
+    PIU_14          -0.321       0.349       0.642       2.322       3.952       4.261       4.702
+    PIU_15          -0.104       0.539       0.797       2.468       4.067       4.299       4.730
+    PIU_16           0.394       0.684       0.787       1.298       1.815       1.903       2.120
+    PAR_MONI         5.143       5.190       5.218       5.339       5.472       5.495       5.533
+    PAR_MONI         5.287       5.351       5.377       5.513       5.648       5.678       5.734
+    PAR_MONI         6.102       6.151       6.174       6.318       6.463       6.479       6.528
+    PAR_MONI         5.386       5.439       5.459       5.597       5.737       5.769       5.804
+    PAR_MONI         6.142       6.189       6.223       6.364       6.506       6.527       6.568
+    PAR_MONI         5.292       5.368       5.408       5.538       5.672       5.703       5.780
+    PAR_MONI         4.766       4.814       4.860       5.004       5.149       5.179       5.223
+    PAR_MONI         4.714       4.791       4.812       4.945       5.073       5.104       5.157
+
+ Variances
+    AGE              1.134       1.212       1.254       1.424       1.601       1.635       1.699
+    GENDER           0.199       0.209       0.213       0.230       0.242       0.244       0.247
+    AFRICANA         0.179       0.186       0.192       0.213       0.230       0.232       0.237
+    LATINO           0.157       0.171       0.173       0.198       0.218       0.222       0.226
+    MONITORI         0.243       0.301       0.329       0.496       0.673       0.702       0.759
+
+ Residual Variances
+    DSM_DRIN         0.059       0.079       0.085       0.161       0.234       0.252       0.286
+    DSM_SMOK        -0.002       0.016       0.027       0.134       0.260       0.286       0.346
+    DSM_PRES         0.045       0.063       0.076       0.168       0.263       0.283       0.334
+    DSM_DEP1         0.693       0.761       0.797       1.017       1.220       1.260       1.343
+    DSM_DEP2         0.256       0.414       0.522       0.862       1.138       1.177       1.308
+    DSM_ANXI         0.384       0.469       0.488       0.690       0.907       0.954       1.039
+    DSM_ANXI        -0.029       0.030       0.059       0.182       0.287       0.316       0.357
+    DSM_ANXI         0.663       0.755       0.793       1.068       1.349       1.397       1.493
+    DSM_SLEE         0.820       0.899       0.944       1.202       1.379       1.421       1.503
+    GPA_RE           1.838       1.965       2.047       2.526       2.852       2.925       3.069
+    PIU_1            0.320       0.391       0.421       0.568       0.699       0.728       0.805
+    PIU_2            0.563       0.605       0.634       0.815       0.959       0.995       1.052
+    PIU_3            0.792       0.849       0.875       1.051       1.203       1.238       1.292
+    PIU_4            0.352       0.385       0.407       0.546       0.682       0.709       0.768
+    PIU_5            0.485       0.549       0.587       0.775       0.976       1.015       1.066
+    PIU_6            0.477       0.532       0.563       0.741       0.905       0.939       1.014
+    PIU_7            0.547       0.615       0.637       0.828       0.994       1.041       1.145
+    PIU_9            0.781       0.825       0.846       1.047       1.209       1.251       1.316
+    PIU_10           0.801       0.891       0.917       1.137       1.317       1.351       1.407
+    PIU_11           0.613       0.662       0.678       0.836       0.980       1.009       1.071
+    PIU_12           0.459       0.520       0.544       0.707       0.854       0.887       0.987
+    PIU_13           0.186       0.264       0.294       0.467       0.634       0.668       0.739
+    PIU_14           0.436       0.503       0.536       0.730       0.931       0.960       1.026
+    PIU_15           0.489       0.545       0.578       0.754       0.950       0.988       1.053
+    PIU_16           0.241       0.266       0.275       0.362       0.442       0.462       0.497
+    PAR_MONI         0.674       0.737       0.774       0.956       1.133       1.174       1.226
+    PAR_MONI         0.665       0.730       0.768       0.944       1.117       1.147       1.187
+    PAR_MONI         0.517       0.632       0.669       0.886       1.098       1.135       1.210
+    PAR_MONI         0.774       0.848       0.877       1.082       1.258       1.302       1.377
+    PAR_MONI         0.605       0.660       0.698       0.883       1.050       1.080       1.149
+    PAR_MONI         0.612       0.680       0.702       0.904       1.087       1.121       1.177
+    PAR_MONI         0.979       1.081       1.132       1.377       1.605       1.677       1.751
+    PAR_MONI         0.865       0.927       0.962       1.165       1.351       1.395       1.464
+    OBSSE            0.211       0.274       0.299       0.431       0.587       0.638       0.712
+    NEGLECT         -0.313      -0.164      -0.134       0.008       0.111       0.132       0.173
+    CONTROL         -0.074      -0.029      -0.010       0.053       0.119       0.139       0.183
+    PIUTOTAL         0.053       0.078       0.090       0.188       0.276       0.302       0.349
+    SUBSTANC         0.025       0.052       0.068       0.168       0.274       0.297       0.352
+    DEP              0.076       0.113       0.130       0.285       0.436       0.473       0.555
+    ANX              0.217       0.304       0.341       0.554       0.757       0.804       0.887
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+ OBSSE    BY
+    PIU_1            0.571       0.619       0.639       0.732       0.805       0.827       0.856
+    PIU_4            0.505       0.559       0.584       0.683       0.764       0.778       0.796
+    PIU_7            0.518       0.565       0.584       0.675       0.757       0.769       0.794
+    PIU_10           0.468       0.510       0.528       0.613       0.691       0.703       0.733
+    PIU_13           0.559       0.600       0.629       0.741       0.843       0.857       0.894
+    PIU_16           0.496       0.540       0.566       0.667       0.746       0.759       0.788
+
+ NEGLECT  BY
+    PIU_2            0.476       0.511       0.527       0.618       0.706       0.721       0.753
+    PIU_5            0.540       0.595       0.620       0.711       0.789       0.805       0.826
+    PIU_11           0.481       0.512       0.542       0.626       0.705       0.717       0.731
+    PIU_14           0.632       0.664       0.687       0.764       0.834       0.845       0.862
+
+ CONTROL  BY
+    PIU_3            0.263       0.318       0.344       0.460       0.567       0.586       0.629
+    PIU_6            0.570       0.611       0.628       0.718       0.796       0.809       0.830
+    PIU_9            0.209       0.259       0.285       0.402       0.520       0.545       0.581
+    PIU_12           0.453       0.499       0.518       0.619       0.707       0.718       0.749
+    PIU_15           0.676       0.699       0.717       0.787       0.842       0.851       0.866
+
+ SUBSTANC BY
+    DSM_DRINKI       0.347       0.483       0.549       0.721       0.845       0.859       0.886
+    DSM_SMOKIN       0.540       0.612       0.655       0.813       0.955       0.970       1.001
+    DSM_PRESCR       0.390       0.443       0.478       0.625       0.768       0.798       0.854
+
+ DEP      BY
+    DSM_DEP1         0.278       0.326       0.356       0.492       0.609       0.628       0.663
+    DSM_DEP2         0.441       0.509       0.537       0.663       0.798       0.835       0.895
+
+ ANX      BY
+    DSM_ANXIET       0.468       0.524       0.561       0.673       0.771       0.784       0.812
+    DSM_ANXIET       0.737       0.787       0.808       0.892       0.967       0.983       1.014
+    DSM_ANXIET       0.443       0.476       0.495       0.613       0.713       0.730       0.763
+
+ MONITORI BY
+    PAR_MONITO       0.437       0.468       0.483       0.584       0.668       0.682       0.716
+    PAR_MONITO       0.534       0.571       0.584       0.662       0.733       0.740       0.765
+    PAR_MONITO       0.551       0.599       0.617       0.713       0.794       0.806       0.828
+    PAR_MONITO       0.460       0.514       0.536       0.620       0.705       0.718       0.740
+    PAR_MONITO       0.571       0.601       0.611       0.700       0.775       0.785       0.809
+    PAR_MONITO       0.581       0.614       0.631       0.707       0.776       0.785       0.801
+    PAR_MONITO       0.351       0.386       0.407       0.510       0.599       0.611       0.660
+    PAR_MONITO       0.367       0.420       0.436       0.550       0.639       0.659       0.696
+
+ PIUTOTAL BY
+    OBSSE            0.353       0.408       0.448       0.584       0.680       0.708       0.728
+    NEGLECT          0.798       0.846       0.876       0.992       1.117       1.142       1.246
+    CONTROL          0.668       0.761       0.784       0.902       1.018       1.044       1.116
+
+ PIUTOTAL ON
+    MONITORING       0.017       0.087       0.133       0.284       0.404       0.427       0.463
+
+ ANX      ON
+    PIUTOTAL        -0.246      -0.195      -0.165       0.003       0.154       0.198       0.245
+    MONITORING      -0.076      -0.021       0.000       0.156       0.316       0.345       0.408
+
+ DEP      ON
+    PIUTOTAL        -0.095      -0.020       0.024       0.239       0.417       0.450       0.513
+    MONITORING      -0.168      -0.076      -0.045       0.142       0.348       0.382       0.450
+
+ SUBSTANC ON
+    PIUTOTAL        -0.235      -0.183      -0.158      -0.003       0.133       0.158       0.233
+    MONITORING      -0.298      -0.227      -0.205      -0.083       0.060       0.104       0.180
+
+ PIUTOTAL ON
+    AGE             -0.233      -0.198      -0.179      -0.069       0.046       0.074       0.109
+    GENDER           0.038       0.093       0.123       0.244       0.359       0.377       0.407
+    AFRICANAM       -0.080      -0.013       0.017       0.192       0.372       0.398       0.446
+    LATINO          -0.110      -0.047      -0.013       0.154       0.309       0.336       0.396
+
+ ANX      ON
+    AGE             -0.256      -0.202      -0.174      -0.049       0.063       0.082       0.130
+    GENDER          -0.224      -0.166      -0.141      -0.017       0.127       0.157       0.201
+    AFRICANAM       -0.215      -0.156      -0.123       0.046       0.204       0.234       0.297
+    LATINO          -0.213      -0.141      -0.108       0.063       0.227       0.255       0.361
+
+ DEP      ON
+    AGE             -0.172      -0.129      -0.087       0.075       0.242       0.275       0.346
+    GENDER          -0.198      -0.140      -0.108       0.063       0.227       0.255       0.313
+    AFRICANAM       -0.435      -0.356      -0.316      -0.092       0.127       0.156       0.220
+    LATINO          -0.355      -0.251      -0.204       0.018       0.222       0.271       0.384
+
+ SUBSTANC ON
+    AGE             -0.196      -0.134      -0.103       0.048       0.175       0.202       0.257
+    GENDER          -0.317      -0.279      -0.252      -0.142      -0.003       0.024       0.088
+    AFRICANAM       -0.190      -0.131      -0.103       0.021       0.128       0.152       0.207
+    LATINO          -0.283      -0.229      -0.201      -0.077       0.038       0.061       0.100
+
+ GPA_RE   ON
+    PIUTOTAL        -0.054       0.004       0.036       0.174       0.285       0.310       0.362
+    MONITORING      -0.409      -0.359      -0.344      -0.225      -0.088      -0.066      -0.014
+
+ DSM_SLEE ON
+    PIUTOTAL        -0.017       0.043       0.076       0.256       0.399       0.436       0.487
+    MONITORING      -0.082      -0.047      -0.025       0.097       0.227       0.254       0.286
+
+ GPA_RE   ON
+    AGE             -0.058      -0.022      -0.006       0.087       0.193       0.214       0.248
+    GENDER           0.004       0.058       0.077       0.182       0.293       0.306       0.336
+    AFRICANAM       -0.332      -0.263      -0.234      -0.014       0.184       0.238       0.326
+    LATINO          -0.358      -0.299      -0.258      -0.052       0.142       0.176       0.237
+
+ DSM_SLEE ON
+    AGE             -0.135      -0.096      -0.076       0.031       0.147       0.172       0.205
+    GENDER          -0.124      -0.075      -0.051       0.053       0.162       0.180       0.219
+    AFRICANAM       -0.278      -0.220      -0.191      -0.021       0.156       0.180       0.246
+    LATINO          -0.234      -0.184      -0.150       0.019       0.185       0.220       0.300
+
+ DEP      WITH
+    SUBSTANCE        0.163       0.237       0.267       0.468       0.651       0.681       0.777
+
+ ANX      WITH
+    SUBSTANCE        0.301       0.356       0.395       0.548       0.690       0.715       0.771
+    DEP              0.455       0.579       0.609       0.758       0.941       0.984       1.074
+
+ DSM_SLEE WITH
+    SUBSTANCE        0.194       0.230       0.252       0.363       0.460       0.479       0.517
+    DEP              0.170       0.274       0.290       0.449       0.609       0.644       0.697
+    ANX              0.317       0.368       0.395       0.522       0.651       0.670       0.718
+
+ GPA_RE   WITH
+    SUBSTANCE       -0.299      -0.256      -0.231      -0.116       0.002       0.024       0.068
+    DEP             -0.225      -0.163      -0.133       0.042       0.201       0.256       0.331
+    ANX             -0.257      -0.222      -0.197      -0.074       0.040       0.073       0.123
+
+ AGE      WITH
+    MONITORING      -0.124      -0.076      -0.047       0.071       0.193       0.223       0.255
+
+ GENDER   WITH
+    MONITORING      -0.219      -0.140      -0.118       0.012       0.130       0.158       0.188
+
+ AFRICANA WITH
+    MONITORING      -0.245      -0.207      -0.189      -0.055       0.071       0.096       0.154
+
+ LATINO   WITH
+    MONITORING      -0.206      -0.160      -0.140      -0.028       0.102       0.122       0.157
+
+ PIU_3    WITH
+    PIU_6            0.037       0.108       0.133       0.284       0.411       0.431       0.475
+    PIU_12           0.041       0.071       0.086       0.205       0.306       0.334       0.374
+
+ PIU_12   WITH
+    PIU_11           0.196       0.223       0.250       0.368       0.474       0.496       0.535
+
+ PIU_4    WITH
+    PIU_16           0.281       0.329       0.366       0.492       0.610       0.627       0.660
+
+ PIU_7    WITH
+    PIU_10           0.235       0.277       0.300       0.437       0.546       0.564       0.591
+
+ PIU_13   WITH
+    PIU_1           -1.046      -0.750      -0.630      -0.360      -0.175      -0.132      -0.060
+
+ DSM_ANXI WITH
+    DSM_DEP2         0.082       0.134       0.202       0.389       0.549       0.586       0.639
+    DSM_SMOKIN      -0.572      -0.476      -0.415      -0.217      -0.011       0.039       0.136
+
+ DSM_ANXI WITH
+    DSM_SMOKIN      -1.000      -0.528      -0.301       0.291       0.619       0.694       0.939
+
+ PAR_MONI WITH
+    PAR_MONITO       0.265       0.337       0.364       0.500       0.611       0.638       0.693
+    PAR_MONITO      -0.460      -0.396      -0.364      -0.218      -0.071      -0.043       0.005
+
+ PAR_MONI WITH
+    PAR_MONITO       0.049       0.138       0.188       0.364       0.517       0.542       0.582
+
+ PAR_MONI WITH
+    PAR_MONITO      -0.470      -0.405      -0.379      -0.254      -0.124      -0.105      -0.064
+
+ PAR_MONI WITH
+    PAR_MONITO       0.060       0.116       0.149       0.299       0.433       0.457       0.510
+
+ AGE      WITH
+    GENDER           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ GPA_RE   WITH
+    DSM_SLEEP       -0.269      -0.237      -0.219      -0.117       0.003       0.021       0.054
+
+ AFRICANA WITH
+    AGE             -0.251      -0.211      -0.191      -0.089       0.018       0.043       0.071
+    GENDER          -0.083      -0.044      -0.025       0.081       0.186       0.211       0.259
+
+ LATINO   WITH
+    AGE             -0.154      -0.117      -0.087       0.018       0.127       0.147       0.191
+    GENDER          -0.234      -0.182      -0.162      -0.051       0.053       0.073       0.121
+    AFRICANAM       -0.875      -0.843      -0.830      -0.757      -0.682      -0.671      -0.649
+
+ Means
+    AGE             12.281      12.527      12.674      13.432      14.295      14.484      14.993
+    GENDER           3.110       3.186       3.224       3.421       3.661       3.714       3.855
+    AFRICANA         1.255       1.310       1.333       1.500       1.691       1.746       1.805
+    LATINO           0.491       0.529       0.535       0.610       0.686       0.705       0.724
+
+ Intercepts
+    DSM_DRIN        -0.501       0.282       0.489       1.951       3.368       3.684       4.121
+    DSM_SMOK        -0.846      -0.099       0.245       1.777       3.609       4.093       4.718
+    DSM_PRES         0.053       0.679       0.878       2.103       3.664       3.959       4.527
+    DSM_DEP1        -0.591      -0.173       0.139       1.306       2.397       2.572       2.915
+    DSM_DEP2        -1.568      -0.969      -0.599       0.920       2.465       2.727       3.175
+    DSM_ANXI         0.272       0.754       1.005       2.046       3.257       3.481       3.868
+    DSM_ANXI        -0.247       0.463       0.743       2.192       3.743       4.091       4.566
+    DSM_ANXI         0.425       0.804       1.029       1.996       3.069       3.321       3.663
+    DSM_SLEE        -1.600      -1.162      -0.873       0.929       2.485       2.948       3.432
+    GPA_RE           1.013       1.475       1.737       3.257       4.653       5.010       5.464
+    PIU_1            0.800       1.173       1.285       2.001       2.691       2.844       3.070
+    PIU_2            0.714       1.220       1.401       2.460       3.540       3.681       3.977
+    PIU_3            0.928       1.354       1.499       2.255       2.931       3.058       3.415
+    PIU_4            0.381       0.717       0.862       1.523       2.174       2.334       2.497
+    PIU_5           -0.040       0.488       0.767       1.934       3.096       3.309       3.600
+    PIU_6            0.073       0.505       0.706       1.768       2.844       2.970       3.316
+    PIU_7            0.591       0.863       0.979       1.601       2.271       2.408       2.559
+    PIU_9            0.569       0.872       1.065       1.728       2.302       2.432       2.745
+    PIU_10           0.743       1.085       1.181       1.771       2.402       2.504       2.702
+    PIU_11           0.238       0.611       0.798       1.841       2.864       3.079       3.355
+    PIU_12           0.239       0.746       0.907       1.848       2.760       2.929       3.204
+    PIU_13           0.275       0.697       0.858       1.543       2.232       2.402       2.595
+    PIU_14          -0.242       0.265       0.492       1.752       2.969       3.220       3.569
+    PIU_15          -0.077       0.383       0.554       1.755       2.917       3.129       3.419
+    PIU_16           0.435       0.801       0.921       1.608       2.295       2.413       2.660
+    PAR_MONI         4.147       4.181       4.229       4.430       4.691       4.750       4.843
+    PAR_MONI         3.970       4.028       4.066       4.252       4.476       4.531       4.648
+    PAR_MONI         4.319       4.408       4.449       4.705       5.045       5.116       5.226
+    PAR_MONI         3.970       4.021       4.052       4.223       4.447       4.492       4.572
+    PAR_MONI         4.388       4.501       4.558       4.838       5.191       5.255       5.464
+    PAR_MONI         3.882       3.929       3.962       4.120       4.318       4.363       4.450
+    PAR_MONI         3.426       3.486       3.507       3.670       3.892       3.971       4.107
+    PAR_MONI         3.568       3.632       3.655       3.826       4.080       4.144       4.247
+
+ Variances
+    AGE              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    GENDER           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    AFRICANA         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    LATINO           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    MONITORI         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    DSM_DRIN         0.208       0.258       0.286       0.481       0.695       0.761       0.842
+    DSM_SMOK        -0.007       0.058       0.088       0.339       0.571       0.621       0.703
+    DSM_PRES         0.265       0.362       0.405       0.609       0.772       0.802       0.848
+    DSM_DEP1         0.557       0.605       0.627       0.758       0.873       0.891       0.923
+    DSM_DEP2         0.170       0.303       0.362       0.560       0.711       0.741       0.778
+    DSM_ANXI         0.336       0.384       0.406       0.548       0.685       0.723       0.776
+    DSM_ANXI        -0.033       0.033       0.062       0.205       0.346       0.381       0.452
+    DSM_ANXI         0.415       0.465       0.489       0.625       0.755       0.773       0.802
+    DSM_SLEE         0.698       0.763       0.787       0.901       0.946       0.955       0.972
+    GPA_RE           0.731       0.764       0.783       0.888       0.937       0.946       0.964
+    PIU_1            0.259       0.315       0.351       0.465       0.590       0.616       0.665
+    PIU_2            0.428       0.479       0.499       0.618       0.721       0.738       0.771
+    PIU_3            0.603       0.656       0.679       0.788       0.881       0.899       0.930
+    PIU_4            0.363       0.392       0.415       0.534       0.658       0.688       0.741
+    PIU_5            0.317       0.352       0.377       0.494       0.615       0.646       0.704
+    PIU_6            0.309       0.346       0.366       0.485       0.604       0.626       0.669
+    PIU_7            0.365       0.408       0.426       0.545       0.657       0.681       0.730
+    PIU_9            0.655       0.703       0.727       0.838       0.919       0.933       0.954
+    PIU_10           0.459       0.506       0.522       0.625       0.720       0.738       0.777
+    PIU_11           0.464       0.486       0.503       0.609       0.706       0.735       0.757
+    PIU_12           0.436       0.484       0.500       0.617       0.732       0.751       0.791
+    PIU_13           0.188       0.264       0.289       0.451       0.604       0.640       0.687
+    PIU_14           0.238       0.286       0.304       0.416       0.527       0.557       0.590
+    PIU_15           0.244       0.275       0.292       0.381       0.486       0.512       0.535
+    PIU_16           0.374       0.420       0.444       0.555       0.679       0.707       0.751
+    PAR_MONI         0.487       0.534       0.554       0.658       0.767       0.781       0.809
+    PAR_MONI         0.413       0.452       0.462       0.562       0.658       0.674       0.709
+    PAR_MONI         0.284       0.350       0.368       0.491       0.619       0.641       0.695
+    PAR_MONI         0.453       0.483       0.502       0.616       0.712       0.736       0.787
+    PAR_MONI         0.343       0.383       0.398       0.510       0.626       0.639       0.671
+    PAR_MONI         0.357       0.382       0.397       0.500       0.601       0.622       0.656
+    PAR_MONI         0.565       0.627       0.640       0.740       0.834       0.851       0.873
+    PAR_MONI         0.515       0.565       0.591       0.697       0.810       0.823       0.861
+    OBSSE            0.467       0.498       0.537       0.659       0.798       0.831       0.873
+    NEGLECT         -0.565      -0.305      -0.249       0.016       0.228       0.283       0.356
+    CONTROL         -0.256      -0.101      -0.037       0.186       0.384       0.421       0.526
+    PIUTOTAL         0.664       0.709       0.734       0.843       0.898       0.912       0.941
+    SUBSTANC         0.812       0.856       0.875       0.964       0.978       0.983       0.991
+    DEP              0.552       0.650       0.691       0.879       0.935       0.952       0.967
+    ANX              0.809       0.856       0.873       0.973       0.983       0.987       0.993
+
+
+CONFIDENCE INTERVALS OF TOTAL, TOTAL INDIRECT, SPECIFIC INDIRECT, AND DIRECT EFFECTS
+
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Effects from MONITORI to GPA_RE
+
+  Indirect          -0.025       0.000       0.012       0.118       0.256       0.288       0.389
+
+Effects from MONITORI to DSM_SLEE
+
+  Indirect          -0.022       0.016       0.026       0.119       0.221       0.252       0.291
+
+Effects from MONITORI to SUBSTANC
+
+  Indirect          -0.046      -0.036      -0.029      -0.001       0.024       0.029       0.042
+
+Effects from MONITORI to DEP
+
+  Indirect          -0.026      -0.005       0.004       0.055       0.105       0.122       0.153
+
+Effects from MONITORI to ANX
+
+  Indirect          -0.100      -0.070      -0.054       0.001       0.047       0.059       0.089
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED TOTAL, TOTAL INDIRECT, SPECIFIC INDIRECT, AND DIRECT EFFECTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Effects from MONITORI to GPA_RE
+
+  Indirect          -0.011       0.000       0.005       0.049       0.102       0.116       0.141
+
+Effects from MONITORI to DSM_SLEE
+
+  Indirect          -0.014       0.010       0.016       0.073       0.127       0.145       0.168
+
+Effects from MONITORI to SUBSTANC
+
+  Indirect          -0.081      -0.056      -0.048      -0.001       0.039       0.049       0.069
+
+Effects from MONITORI to DEP
+
+  Indirect          -0.027      -0.006       0.005       0.068       0.123       0.140       0.175
+
+Effects from MONITORI to ANX
+
+  Indirect          -0.092      -0.061      -0.048       0.001       0.044       0.058       0.088
+
+
+
+DIAGRAM INFORMATION
+
+  Use View Diagram under the Diagram menu in the Mplus Editor to view the diagram.
+  If running Mplus from the Mplus Diagrammer, the diagram opens automatically.
+
+  Diagram output
+    c:\users\wanthony\desktop\stephanie's dataset\study 1\miamidata_sem.dgm
+
+     Beginning Time:  11:46:05
+        Ending Time:  12:08:31
+       Elapsed Time:  00:22:26
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2017 Muthen & Muthen
